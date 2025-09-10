@@ -13,6 +13,6 @@
 3. ```cd ./Medi-Frontend ```
 4. ```npm install```
 5. create a `.env` file in root directory and copy the contents of `.env.example` into it, then fill in with your own values. 
-6. ```npm start```
+6. ```npm run dev```
 
 Now open your browser and open ```localhost:5173```
