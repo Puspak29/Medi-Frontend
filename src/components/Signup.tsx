@@ -1,6 +1,8 @@
 import react, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { userSignup } from '../services/userSignup'
+import { userSignup, type UserData } from '../services/userSignup'
+import { toast } from 'react-toastify'
+import { type BasicResponse } from '../types/basicRes'
 
 function Signup() {
     const [formData, setFormData] = useState({
@@ -14,21 +16,25 @@ function Signup() {
         e.preventDefault();
 
         if(formData.password !== formData.confirmPassword){
-            console.error("Passwords do not match");
+            toast.error('password and confirm password must be same.');
             return;
         }
 
         try{
-            const response = await userSignup({
+            const response: BasicResponse = await userSignup({
                 name: formData.name,
                 email: formData.email,
                 password: formData.password,
             });
 
-            console.log(response);
+            if(response.success){
+                toast.success(response.message);
+            }else{
+                toast.error(response.message);
+            }
         }
         catch(err){
-            console.error(err);
+            toast.error('signup failed, please try again.');
         }
     }
   return (
