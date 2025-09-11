@@ -4,7 +4,7 @@ import './index.css'
 import App from './App.tsx'
 import Layout from './routes/Layout.tsx'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import Signup from './components/Signup.tsx'
+import { Signup, Login } from './components'
 
 const router = createBrowserRouter([
   {
@@ -24,6 +24,10 @@ const router = createBrowserRouter([
               {
                 path: 'signup',
                 element: <Signup />
+              },
+              {
+                path: 'login',
+                element: <Login />
               }
             ]
           }

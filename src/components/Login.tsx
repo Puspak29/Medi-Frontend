@@ -1,41 +1,34 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { userSignup } from '../services/userSignup'
-import { toast } from 'react-toastify'
-import { type BasicResponse } from '../types/basicRes'
-import routes from '../routes'
+import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import routes from '../routes';
+import { type BasicResponse } from '../types/basicRes';
+import { userLogin } from '../services/userLogin';
 
-function Signup() {
+function Login() {
     const [formData, setFormData] = useState({
-        name: '',
         email: '',
         password: '',
-        confirmPassword: '',
     });
 
     async function handleSubmit(e: React.FormEvent){
         e.preventDefault();
 
-        if(formData.password !== formData.confirmPassword){
-            toast.error('password and confirm password must be same.');
-            return;
-        }
-
         try{
-            const response: BasicResponse = await userSignup({
-                name: formData.name,
+            const response: BasicResponse = await userLogin({
                 email: formData.email,
                 password: formData.password,
             });
 
             if(response.success){
                 toast.success(response.message);
-            }else{
+            }
+            else{
                 toast.error(response.message);
             }
         }
         catch(err){
-            toast.error('signup failed, please try again.');
+            toast.error('login failed, please try again.');
         }
     }
   return (
@@ -43,23 +36,8 @@ function Signup() {
       <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-sm mt-20">
         <form onSubmit={handleSubmit}>
           <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-            Register
+            Login
           </h2>
-
-          <div className="mb-4">
-            <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              className="border rounded w-full py-2 px-3"
-              required
-              value={formData.name}
-              onChange={(e) => setFormData({...formData, [e.target.name]: e.target.value})}
-            />
-          </div>
 
           <div className="mb-4">
             <label htmlFor="email" className="block text-gray-700 font-bold mb-2">
@@ -91,35 +69,17 @@ function Signup() {
             />
           </div>
 
-          <div className="mb-6">
-            <label
-              htmlFor="confirm-password"
-              className="block text-gray-700 font-bold mb-2"
-            >
-              Confirm Password
-            </label>
-            <input
-              type="password"
-              id="confirm-password"
-              name="confirm-password"
-              className="border rounded w-full py-2 px-3"
-              required
-              value={formData.confirmPassword}
-              onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
-            />
-          </div>
-
           <div className="flex flex-col gap-5">
             <button
               type="submit"
               className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
             >
-              Register
+              Login
             </button>
 
             <p>
-              Have an account? 
-              <Link to={routes.auth.user.login} className="text-blue-500"> Login</Link>
+              Don't have an account? 
+              <Link to={routes.auth.user.signup} className="text-blue-500"> Signup</Link>
             </p>
           </div>
         </form>
@@ -128,4 +88,4 @@ function Signup() {
   )
 }
 
-export default Signup
+export default Login
