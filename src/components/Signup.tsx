@@ -1,4 +1,4 @@
-import react, { useState } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { userSignup } from '../services/userSignup'
 import { toast } from 'react-toastify'
@@ -13,7 +13,7 @@ function Signup() {
         confirmPassword: '',
     });
 
-    async function handleSubmit(e: react.FormEvent){
+    async function handleSubmit(e: React.FormEvent){
         e.preventDefault();
 
         if(formData.password !== formData.confirmPassword){
