@@ -16,13 +16,14 @@ async function userLogin(loginData: UserLoginData): Promise<BasicResponse>{
             body: JSON.stringify(loginData),
         });
 
-        const data: BasicResponse = await response.json();
+        const data: BasicResponse & { token: string; user: any } = await response.json();
+        if(data.token) localStorage.setItem('token', data.token);
         return data;
     }
     catch(err: any){
         return {
             success: false,
-            message: 'something went wrong.',
+            message: 'Something went wrong.',
         }
     }
 }

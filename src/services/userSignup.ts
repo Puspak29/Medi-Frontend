@@ -5,6 +5,8 @@ export type UserData = {
     name: string,
     email: string,
     password: string,
+    dateofBirth: Date,
+    aadhaar: string,
 }
 
 async function userSignup(userData: UserData): Promise<BasicResponse>{
@@ -23,7 +25,7 @@ async function userSignup(userData: UserData): Promise<BasicResponse>{
     catch(err: any){
         return {
             success: false,
-            message: 'something went wrong.',
+            message: 'Something went wrong.',
         }
     }
     

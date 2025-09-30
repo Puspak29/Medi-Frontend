@@ -11,13 +11,15 @@ function Signup() {
         email: '',
         password: '',
         confirmPassword: '',
+        dateofBirth: new Date(),
+        aadhaar: '',
     });
 
     async function handleSubmit(e: React.FormEvent){
         e.preventDefault();
 
         if(formData.password !== formData.confirmPassword){
-            toast.error('password and confirm password must be same.');
+            toast.error('Password and confirm password must be same.');
             return;
         }
 
@@ -26,6 +28,8 @@ function Signup() {
                 name: formData.name,
                 email: formData.email,
                 password: formData.password,
+                dateofBirth: formData.dateofBirth,
+                aadhaar: formData.aadhaar,
             });
 
             if(response.success){
@@ -35,7 +39,7 @@ function Signup() {
             }
         }
         catch(err){
-            toast.error('signup failed, please try again.');
+            toast.error('Signup failed, please try again.');
         }
     }
   return (
@@ -72,6 +76,36 @@ function Signup() {
               className="border rounded w-full py-2 px-3"
               required
               value={formData.email}
+              onChange={(e) => setFormData({...formData, [e.target.name]: e.target.value})}
+            />
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor="dateofBirth" className="block text-gray-700 font-bold mb-2">
+              Date of Birth
+            </label>
+            <input
+              type="date"
+              id="dateofBirth"
+              name="dateofBirth"
+              className="border rounded w-full py-2 px-3"
+              required
+              value={formData.dateofBirth.toISOString().split('T')[0]}
+              onChange={(e) => setFormData({...formData, [e.target.name]: new Date(e.target.value)})}
+            />
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor="aadhaar" className="block text-gray-700 font-bold mb-2">
+              Aadhaar No.
+            </label>
+            <input
+              type="number"
+              id="aadhaar"
+              name="aadhaar"
+              className="border rounded w-full py-2 px-3"
+              required
+              value={formData.aadhaar}
               onChange={(e) => setFormData({...formData, [e.target.name]: e.target.value})}
             />
           </div>

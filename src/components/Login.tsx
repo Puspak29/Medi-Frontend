@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import routes from '../routes';
 import { type BasicResponse } from '../types/basicRes';
@@ -10,6 +10,8 @@ function Login() {
         email: '',
         password: '',
     });
+
+    const navigate = useNavigate();
 
     async function handleSubmit(e: React.FormEvent){
         e.preventDefault();
@@ -22,13 +24,14 @@ function Login() {
 
             if(response.success){
                 toast.success(response.message);
+                navigate(routes.home);
             }
             else{
                 toast.error(response.message);
             }
         }
         catch(err){
-            toast.error('login failed, please try again.');
+            toast.error('Login failed, please try again.');
         }
     }
   return (
