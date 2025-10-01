@@ -1,30 +1,25 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import routes from '../routes';
-import { type BasicResponse } from '../types/basicRes';
-import { userLogin } from '../services/userLogin';
+import { type BasicResponse, type LoginFormProps } from '../types/basicRes';
 
-function Login() {
+function LoginForm(props: LoginFormProps) {
     const [formData, setFormData] = useState({
         email: '',
         password: '',
     });
 
-    const navigate = useNavigate();
-
-    async function handleSubmit(e: React.FormEvent){
+    async function propSubmit(e: React.FormEvent){
         e.preventDefault();
 
         try{
-            const response: BasicResponse = await userLogin({
-                email: formData.email,
-                password: formData.password,
-            });
+            const response: BasicResponse = await props.handleSubmit(
+                formData.email,
+                formData.password
+            );
 
             if(response.success){
                 toast.success(response.message);
-                navigate(routes.home);
             }
             else{
                 toast.error(response.message);
@@ -37,9 +32,9 @@ function Login() {
   return (
     <div className="flex items-center justify-center">
       <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-sm mt-20">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={propSubmit}>
           <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-            Login
+            {props.role === 'user' ? 'User Login' : 'Doctor Login'}
           </h2>
 
           <div className="mb-4">
@@ -82,7 +77,7 @@ function Login() {
 
             <p>
               Don't have an account? 
-              <Link to={routes.auth.user.signup} className="text-blue-500"> Signup</Link>
+              <Link to={props.redirectPath} className="text-blue-500"> Signup</Link>
             </p>
           </div>
         </form>
@@ -91,4 +86,4 @@ function Login() {
   )
 }
 
-export default Login
+export default LoginForm

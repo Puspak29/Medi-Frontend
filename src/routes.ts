@@ -12,6 +12,10 @@ const routes = {
             login: '/auth/doctor/login',
             signup: '/auth/doctor/signup'
         }
+    },
+    user: {
+        root: '/user',
+        profile: '/user/profile',
     }
 }
 

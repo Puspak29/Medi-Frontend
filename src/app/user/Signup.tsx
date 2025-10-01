@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { userSignup } from '../services/userSignup'
+import { userSignup } from '../../services/userServices'
 import { toast } from 'react-toastify'
-import { type BasicResponse } from '../types/basicRes'
-import routes from '../routes'
+import { type BasicResponse } from '../../types/basicRes'
+import routes from '../../routes'
 
 function Signup() {
     const [formData, setFormData] = useState({

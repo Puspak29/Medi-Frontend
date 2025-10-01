@@ -8,3 +8,9 @@ export type UserSignup = {
     email: string,
     password: string,
 }
+
+export type LoginFormProps = {
+    role: 'user' | 'doctor',
+    handleSubmit: (email: string, password: string) => Promise<any>,
+    redirectPath: string,
+}

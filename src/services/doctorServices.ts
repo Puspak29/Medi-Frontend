@@ -1,14 +1,14 @@
 import API_URL from "../config/apiUrl";
 import { type BasicResponse } from "../types/basicRes";
 
-export type UserLoginData = {
+export type DoctorLoginData = {
     email: string,
     password: string,
 }
 
-async function userLogin(loginData: UserLoginData): Promise<BasicResponse>{
+async function doctorLogin(loginData: DoctorLoginData): Promise<BasicResponse>{
     try{
-        const response = await fetch(`${API_URL}/auth/user/login`, {
+        const response = await fetch(`${API_URL}/auth/doctor/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -29,5 +29,5 @@ async function userLogin(loginData: UserLoginData): Promise<BasicResponse>{
 }
 
 export {
-    userLogin,
+    doctorLogin,
 }

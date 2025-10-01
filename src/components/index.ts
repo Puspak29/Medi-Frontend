@@ -1,7 +1,7 @@
-import Login from "./Login";
-import Signup from "./Signup";
+import Heading from "./Heading"
+import LoginForm from "./LoginForm"
 
 export {
-    Login,
-    Signup,
+    Heading,
+    LoginForm,
 }
