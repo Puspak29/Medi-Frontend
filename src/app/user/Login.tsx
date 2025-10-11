@@ -26,7 +26,7 @@ function Login() {
     }
   return (
     <>
-        <LoginForm role='user' handleSubmit={handleUserLogin} redirectPath={routes.auth.user.login} />
+        <LoginForm role='user' handleSubmit={handleUserLogin} redirectPath={routes.auth.user.signup} />
     </>
   )
 }
