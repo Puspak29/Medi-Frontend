@@ -16,6 +16,15 @@ const routes = {
     user: {
         root: '/user',
         profile: '/user/profile',
+    },
+    doctor: {
+        root: '/doctor',
+        profile: '/doctor/profile',
+        reportcard: {
+            root: '/doctor/reportcard',
+            generate: '/doctor/reportcard',
+            verify: '/doctor/reportcard/verify',
+        },
     }
 }
 

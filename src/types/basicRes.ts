@@ -5,6 +5,13 @@ import React from "react"
 export type BasicResponse = {
     success: boolean,
     message: string,
+    token?: string,
+    details?: {
+        id: string,
+        email: string,
+        name?: string,
+        role: string,
+    } | null,
 }
 
 export type UserSignup = {
@@ -36,4 +43,10 @@ export type DynamicFormProps = {
     redirectPath?: string,
     redirectText?: string,
     redirectLinkText?: string,
+}
+
+export type CurrentUser = {
+    id: string,
+    email: string,
+    role: string,
 }

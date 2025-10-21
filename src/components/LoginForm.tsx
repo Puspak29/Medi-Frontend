@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { toast } from 'react-toastify';
-import { type BasicResponse, type LoginFormProps, type FormField } from '../types/basicRes';
+import { type BasicResponse, type LoginFormProps, type FormField, type CurrentUser } from '../types/basicRes';
 import { DynamicForm } from './';
+import { useAuth } from '../context/AuthContextProvider';
+// import { AuthProvider } from '../context/authContext';
 
 const fieldValue: FormField[] = [
   { name: 'email', fullName: 'Email', type: 'email', required: true },
@@ -9,6 +11,8 @@ const fieldValue: FormField[] = [
 ]
 
 function LoginForm(props: LoginFormProps) {
+
+  const { setIsAuth, setCurrentUser } = useAuth();
 
   const title: string = props.role === 'user' ? 'User Login' : 'Doctor Login';
     const [formData, setFormData] = useState({
@@ -22,7 +26,14 @@ function LoginForm(props: LoginFormProps) {
                 formData.email,
                 formData.password
             );
-
+            if(response.details){
+              setCurrentUser({
+                id: response.details.id,
+                email: response.details.email,
+                role: response.details.role
+              });
+              setIsAuth(response.success);
+            }
             if(response.success){
                 toast.success(response.message);
             }
@@ -36,16 +47,19 @@ function LoginForm(props: LoginFormProps) {
     }
   return (
     <>
+    {/* <AuthProvider value = {{currentUser}}> */}
     <DynamicForm 
     title={title} 
     fields={fieldValue} 
     handleSubmit={propSubmit} 
     formData={formData} 
     setFormData={setFormData} 
+    submitText="Login"
     redirectText="Don't have an account?" 
     redirectLinkText=' Signup'
     redirectPath={props.redirectPath}
     />
+    {/* </AuthProvider> */}
     </>
   )
 }

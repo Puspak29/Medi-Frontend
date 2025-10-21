@@ -6,6 +6,15 @@ export type DoctorLoginData = {
     password: string,
 }
 
+export type DoctorSignupData = {
+    name: string,
+    email: string,
+    password: string,
+    uidByNMC: string,
+    specialization: string,
+    experience: number
+}
+
 async function doctorLogin(loginData: DoctorLoginData): Promise<BasicResponse>{
     try{
         const response = await fetch(`${API_URL}/auth/doctor/login`, {
@@ -28,6 +37,81 @@ async function doctorLogin(loginData: DoctorLoginData): Promise<BasicResponse>{
     }
 }
 
+async function doctorSignup(signupData: DoctorSignupData): Promise<BasicResponse> {
+    try{
+        const response = await fetch(`${API_URL}/auth/doctor/signup`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(signupData),
+        });
+
+        const data: BasicResponse = await response.json();
+        return data;
+    }
+    catch(err: any){
+        return {
+            success: false,
+            message: 'Signup failed, please try again.',
+        }
+    }
+}
+
+async function generateReportCard(params: any): Promise<BasicResponse> {
+    try{
+        const response = await fetch(`${API_URL}/doctor/reportcard`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(params),
+        });
+
+        const data: BasicResponse = await response.json();
+        return data;
+    }
+    catch(err: any){
+        return {
+            success: false,
+            message: 'Report creation failed.',
+        }
+    }
+}
+
+async function getDoctorProfile(): Promise<BasicResponse & { doctor? : any }> {
+    try{
+        const token = localStorage.getItem('token');
+        if(!token){
+            return {
+                success: false,
+                message: 'Please login to continue.',
+            }
+        }
+        const response = await fetch(`${API_URL}/doctor/profile`,{
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }
+        });
+
+        const data: BasicResponse & { doctor?: any } = await response.json();
+        if(!data.success) localStorage.removeItem('token');
+        return data;
+
+    }
+    catch(err: any){
+        return {
+            success: false,
+            message: 'Failed to fetch user profile.',
+        }
+    }
+}
+
 export {
     doctorLogin,
+    generateReportCard,
+    doctorSignup,
+    getDoctorProfile
 }
