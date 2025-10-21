@@ -5,7 +5,9 @@ import App from './App.tsx'
 import Layout from './routes/Layout.tsx'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { Login, Signup, UserProfile } from './app/user'
-import { DoctorLogin, ReportCard, DoctorSignup } from './app/doctor/index.ts'
+import { DoctorLogin, ReportCard, DoctorSignup, DoctorProfile } from './app/doctor/index.ts'
+import { AuthProvider } from './context/AuthContextProvider.tsx'
+import AuthGuard from './middleware/ProtectedRouter.tsx'
 
 const router = createBrowserRouter([
   {
@@ -24,11 +26,19 @@ const router = createBrowserRouter([
             children: [
               {
                 path: 'signup',
-                element: <Signup />
+                element: (
+                  <AuthGuard>
+                    <Signup />
+                  </AuthGuard>
+                )
               },
               {
                 path: 'login',
-                element: <Login />
+                element: (
+                  <AuthGuard>
+                    <Login />
+                  </AuthGuard>
+                )
               }
             ]
           },
@@ -37,11 +47,19 @@ const router = createBrowserRouter([
             children: [
               {
                 path: 'login',
-                element: <DoctorLogin />
+                element: (
+                  <AuthGuard>
+                    <DoctorLogin />
+                  </AuthGuard>
+                )
               },
               {
                 path: 'signup',
-                element: <DoctorSignup />
+                element: (
+                  <AuthGuard>
+                    <DoctorSignup />
+                  </AuthGuard>
+                )
               }
             ]
           }
@@ -52,7 +70,11 @@ const router = createBrowserRouter([
         children: [
           {
             path: 'profile',
-            element: <UserProfile />
+            element: (
+              <AuthGuard>
+                <UserProfile />
+              </AuthGuard>
+            )
           }
         ]
       },
@@ -61,7 +83,19 @@ const router = createBrowserRouter([
         children: [
           {
             path: 'reportcard',
-            element: <ReportCard />
+          element: (
+            <AuthGuard>
+              <ReportCard />
+            </AuthGuard>
+          )
+          },
+          {
+            path: 'profile',
+            element: (
+              <AuthGuard>
+                <DoctorProfile />
+              </AuthGuard>
+            )
           }
         ]
       }
@@ -71,6 +105,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
+    <AuthProvider>
     <RouterProvider router={router} />
+    </AuthProvider>
   </StrictMode>,
 )

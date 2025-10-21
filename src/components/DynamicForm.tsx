@@ -30,8 +30,11 @@ function DynamicForm(props: DynamicFormProps) {
                     name={field.name}
                     className="border rounded w-full py-2 px-3"
                     required={field.required}
-                    value={props.formData[field.name] || ''}
-                    onChange={(e) => props.setFormData({...props.formData, [e.target.name]: e.target.value})}
+                    value={field.type === 'date' ? props.formData[field.name].toISOString().split('T')[0] : (props.formData[field.name] || '')}
+                    onChange={(e) => field.type === 'date' ? 
+                      props.setFormData({...props.formData, [e.target.name]: new Date(e.target.value)}) : 
+                      props.setFormData({...props.formData, [e.target.name]: e.target.value})
+                    }
                     />
                 </div>
           ))}
