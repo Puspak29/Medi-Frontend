@@ -1,5 +1,6 @@
 const routes = {
     home: '/',
+    error: '/error',
     auth: {
         root: '/auth',
         user: {
@@ -16,6 +17,7 @@ const routes = {
     user: {
         root: '/user',
         profile: '/user/profile',
+        reportcards: '/user/reportcards'
     },
     doctor: {
         root: '/doctor',
@@ -25,7 +27,7 @@ const routes = {
             generate: '/doctor/reportcard',
             verify: '/doctor/reportcard/verify',
         },
-    }
+    },
 }
 
 export default routes

@@ -1,26 +1,30 @@
 import { useState } from 'react'
 import { toast } from 'react-toastify';
 import { type BasicResponse, type FormField } from '../types/basicRes';
-import { type ReportCard, type ReportCardProp } from '../types/reportcardType';
+import { type ReportCardData, type ReportCardProp } from '../types/reportcardType';
 import { DynamicForm } from './';
+import { useAuth } from '../context/AuthContextProvider';
 
 
 const fieldValue: FormField[] = [
   { name: 'userEmail', fullName: 'User Email', type: 'email', required: true },
   { name: 'condition', fullName: 'Condition', type: 'text', required: true },
   { name: 'treatment', fullName: 'Treatment', type: 'text', required: true },
-  { name: 'description', fullName: 'Description', type: 'text', required: false },
+  { name: 'description', fullName: 'Description', type: 'text', required: true },
   { name: 'supportingDocuments', fullName: 'Supporting Documents', type: 'text', required: false }
 ]
 
 function ReportCardForm(props: ReportCardProp) {
-    const [formData, setFormData] = useState<ReportCard>({
+    const { currentUser } = useAuth();
+    const [formData, setFormData] = useState<ReportCardData>({
+        doctorId: currentUser?.id,
         userEmail: '',
+        otpType: 'update',
         condition: '',
         treatment: '',
         description: '',
         date: new Date(),
-        supportingDocuments: '',
+        supportingDocument: '',
     });
 
     async function propSubmit(){
@@ -28,7 +32,7 @@ function ReportCardForm(props: ReportCardProp) {
             const response: BasicResponse = await props.handleSubmit(
                 formData
             );
-            console.log(formData);
+            // console.log(formData);
             if(response.success){
                 toast.success(response.message);
             }

@@ -1,5 +1,6 @@
 import API_URL from "../config/apiUrl";
 import { type BasicResponse } from "../types/basicRes";
+import { type ReportCardData, type OtpData } from "../types/reportcardType"
 
 export type DoctorLoginData = {
     email: string,
@@ -14,6 +15,7 @@ export type DoctorSignupData = {
     specialization: string,
     experience: number
 }
+
 
 async function doctorLogin(loginData: DoctorLoginData): Promise<BasicResponse>{
     try{
@@ -32,7 +34,7 @@ async function doctorLogin(loginData: DoctorLoginData): Promise<BasicResponse>{
     catch(err: any){
         return {
             success: false,
-            message: 'Something went wrong.',
+            message: 'Something went wrong',
         }
     }
 }
@@ -53,19 +55,27 @@ async function doctorSignup(signupData: DoctorSignupData): Promise<BasicResponse
     catch(err: any){
         return {
             success: false,
-            message: 'Signup failed, please try again.',
+            message: 'Signup failed, please try again',
         }
     }
 }
 
-async function generateReportCard(params: any): Promise<BasicResponse> {
+async function generateReportCard(reportcardData: ReportCardData): Promise<BasicResponse> {
     try{
+        const token = localStorage.getItem('token');
+        if(!token){
+            return {
+                success: false,
+                message: 'Please login to continue',
+            }
+        }
         const response = await fetch(`${API_URL}/doctor/reportcard`, {
             method: 'POST',
             headers: {
+                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(params),
+            body: JSON.stringify(reportcardData),
         });
 
         const data: BasicResponse = await response.json();
@@ -74,7 +84,7 @@ async function generateReportCard(params: any): Promise<BasicResponse> {
     catch(err: any){
         return {
             success: false,
-            message: 'Report creation failed.',
+            message: 'Report creation failed',
         }
     }
 }
@@ -85,7 +95,7 @@ async function getDoctorProfile(): Promise<BasicResponse & { doctor? : any }> {
         if(!token){
             return {
                 success: false,
-                message: 'Please login to continue.',
+                message: 'Please login to continue',
             }
         }
         const response = await fetch(`${API_URL}/doctor/profile`,{
@@ -104,7 +114,36 @@ async function getDoctorProfile(): Promise<BasicResponse & { doctor? : any }> {
     catch(err: any){
         return {
             success: false,
-            message: 'Failed to fetch user profile.',
+            message: 'Failed to fetch user profile',
+        }
+    }
+}
+
+async function verifyOtp(otpData: OtpData): Promise<BasicResponse> {
+    try{
+        const token = localStorage.getItem('token');
+        if(!token){
+            return {
+                success: false,
+                message: 'Please login to continue',
+            }
+        }
+        const response = await fetch(`${API_URL}/doctor/reportcard/verify`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(otpData)
+        });
+
+        const data: BasicResponse = await response.json();
+        return data;
+    }
+    catch(err: any){
+        return {
+            success: false,
+            message: 'Failed to verify OTP',
         }
     }
 }
@@ -113,5 +152,6 @@ export {
     doctorLogin,
     generateReportCard,
     doctorSignup,
-    getDoctorProfile
+    getDoctorProfile,
+    verifyOtp
 }
