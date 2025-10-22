@@ -8,6 +8,9 @@ import { Login, Signup, UserProfile } from './app/user'
 import { DoctorLogin, ReportCard, DoctorSignup, DoctorProfile } from './app/doctor/index.ts'
 import { AuthProvider } from './context/AuthContextProvider.tsx'
 import AuthGuard from './middleware/ProtectedRouter.tsx'
+import OtpVerify from './app/doctor/OtpVerify.tsx'
+import MyHistory from './app/user/MyHistory.tsx'
+import Error from './app/Error.tsx'
 
 const router = createBrowserRouter([
   {
@@ -75,6 +78,14 @@ const router = createBrowserRouter([
                 <UserProfile />
               </AuthGuard>
             )
+          },
+          {
+            path: 'reportcards',
+            element: (
+              <AuthGuard>
+                <MyHistory />
+              </AuthGuard>
+            )
           }
         ]
       },
@@ -83,11 +94,19 @@ const router = createBrowserRouter([
         children: [
           {
             path: 'reportcard',
-          element: (
-            <AuthGuard>
-              <ReportCard />
-            </AuthGuard>
-          )
+            element: (
+              <AuthGuard>
+                <ReportCard />
+              </AuthGuard>
+            )
+          },
+          {
+            path: 'reportcard/verify',
+            element: (
+              <AuthGuard>
+                <OtpVerify />
+              </AuthGuard>
+            )
           },
           {
             path: 'profile',
@@ -98,6 +117,10 @@ const router = createBrowserRouter([
             )
           }
         ]
+      },
+      {
+        path: 'error',
+        element: <Error />
       }
     ]
   }

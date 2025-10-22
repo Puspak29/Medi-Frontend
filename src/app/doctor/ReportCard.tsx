@@ -3,15 +3,18 @@ import { ReportCardForm } from "../../components/index"
 import { type BasicResponse } from "../../types/basicRes"
 import routes from "../../routes"
 import { generateReportCard } from "../../services/doctorServices";
+import { type ReportCardData } from "../../types/reportcardType";
 
 export default function ReportCard() {
   const navigate = useNavigate();
 
-  async function handleReportCardSubmit(params: any): Promise<BasicResponse> {
+  async function handleReportCardSubmit(reportcardData: ReportCardData): Promise<BasicResponse> {
     try {
-      const responce = await generateReportCard(params);
+      const responce = await generateReportCard(reportcardData);
+      const email = reportcardData.userEmail;
+      
       if(responce.success){
-        navigate(routes.home);
+        navigate(routes.doctor.reportcard.verify, { state: { email }});
       }
       return responce;
     }
@@ -24,7 +27,7 @@ export default function ReportCard() {
   }
   return (
     <>
-        <ReportCardForm handleSubmit={async () => { return Promise.resolve()}} />
+        <ReportCardForm handleSubmit={handleReportCardSubmit} />
     </>
   )
 }

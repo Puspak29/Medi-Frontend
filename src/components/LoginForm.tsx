@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import { toast } from 'react-toastify';
-import { type BasicResponse, type LoginFormProps, type FormField, type CurrentUser } from '../types/basicRes';
+import { type BasicResponse, type LoginFormProps, type FormField} from '../types/basicRes';
 import { DynamicForm } from './';
 import { useAuth } from '../context/AuthContextProvider';
-// import { AuthProvider } from '../context/authContext';
 
 const fieldValue: FormField[] = [
   { name: 'email', fullName: 'Email', type: 'email', required: true },
@@ -47,7 +46,6 @@ function LoginForm(props: LoginFormProps) {
     }
   return (
     <>
-    {/* <AuthProvider value = {{currentUser}}> */}
     <DynamicForm 
     title={title} 
     fields={fieldValue} 
@@ -59,7 +57,6 @@ function LoginForm(props: LoginFormProps) {
     redirectLinkText=' Signup'
     redirectPath={props.redirectPath}
     />
-    {/* </AuthProvider> */}
     </>
   )
 }

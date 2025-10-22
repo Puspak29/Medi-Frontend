@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from 'react'
 import { getUserProfile } from '../../services/userServices';
 import { toast } from 'react-toastify';
 import { Heading } from '../../components';
+import { Link } from 'react-router-dom';
+import routes from '../../routes';
 
 export type User = {
     name: string,
@@ -63,9 +65,11 @@ function UserProfile() {
             <p>
                 Medical History: {" "}
                 {user.medicalHistory && user.medicalHistory.length > 0 ?
-                    <ul>
-                        {user.medicalHistory.map(entry => <li key={entry._id}>{entry.condition}</li>)}
-                    </ul>
+                <>
+                    {user.medicalHistory.length}{" "}
+                    <Link to={routes.user.reportcards} className='underline text-blue-900'> Details</Link>
+                    
+                </>
                  :
                     'No medical history available.'
                 }
