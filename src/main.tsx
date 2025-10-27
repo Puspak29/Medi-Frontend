@@ -88,6 +88,14 @@ const router = createBrowserRouter([
                 <ReportCards />
               </AuthGuard>
             )
+          },
+          {
+            path: 'reportcards',
+            element: (
+              <AuthGuard>
+                <MyHistory />
+              </AuthGuard>
+            )
           }
         ]
       },
