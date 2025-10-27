@@ -11,6 +11,8 @@ import AuthGuard from './middleware/ProtectedRouter.tsx'
 import OtpVerify from './app/doctor/OtpVerify.tsx'
 import MyHistory from './app/user/MyHistory.tsx'
 import Error from './app/Error.tsx'
+import MedicalProfile from './app/user/MedicalProfile.tsx'
+import ReportCards from './app/user/ReportCards.tsx'
 
 const router = createBrowserRouter([
   {
@@ -75,7 +77,15 @@ const router = createBrowserRouter([
             path: 'profile',
             element: (
               <AuthGuard>
-                <UserProfile />
+                <MedicalProfile />
+              </AuthGuard>
+            )
+          },
+          {
+            path: 'reportcards',
+            element: (
+              <AuthGuard>
+                <ReportCards />
               </AuthGuard>
             )
           },

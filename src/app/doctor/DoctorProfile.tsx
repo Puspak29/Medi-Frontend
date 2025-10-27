@@ -47,12 +47,14 @@ function DoctorProfile() {
     <>
     <Heading title="Doctor Profile" />
     {doctor ? (
-        <div>
-            <h2>Name: {doctor.name}</h2>
-            <p>Email: {doctor.email}</p>
-            <p>UID by NMC: {doctor.uidByNMC}</p>
-            <p>Specialization: {doctor.specialization}</p>
-            <p>Experience: {doctor.experience} years</p>
+        <div className='bg-white shadow rounded-lg p-4 mt-4 flex flex-col'>
+            <div className='flex flex-col'>
+                <div className='text-lg font-semibold'>Name: {doctor.name}</div>
+                <div className='text-lg font-semibold'>Email: {doctor.email}</div>
+                <div className='text-lg font-semibold'>UID by NMC: {doctor.uidByNMC}</div>
+                <div className='text-lg font-semibold'>Specialization: {doctor.specialization}</div>
+                <div className='text-lg font-semibold'>Experience: {doctor.experience} years</div>
+            </div>
         </div>
 
     ) : (

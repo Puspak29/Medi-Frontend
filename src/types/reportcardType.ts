@@ -6,6 +6,7 @@ export type ReportCardData = {
     treatment: string, 
     description: string, 
     date: Date,
+    status: string,
     supportingDocument?: string
 }
 
