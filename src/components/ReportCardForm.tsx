@@ -11,6 +11,7 @@ const fieldValue: FormField[] = [
   { name: 'condition', fullName: 'Condition', type: 'text', required: true },
   { name: 'treatment', fullName: 'Treatment', type: 'text', required: true },
   { name: 'description', fullName: 'Description', type: 'text', required: true },
+  { name: 'status', fullName: 'Status', type: 'dropdown', required: true },
   { name: 'supportingDocuments', fullName: 'Supporting Documents', type: 'text', required: false }
 ]
 
@@ -24,6 +25,7 @@ function ReportCardForm(props: ReportCardProp) {
         treatment: '',
         description: '',
         date: new Date(),
+        status: 'Normal',
         supportingDocument: '',
     });
 

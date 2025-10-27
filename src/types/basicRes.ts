@@ -9,8 +9,12 @@ export type BasicResponse = {
     details?: {
         id: string,
         email: string,
-        name?: string,
         role: string,
+        name?: string,
+        aadhaar?: number,
+        dateofBirth?: Date,
+        medicalHistoryCount?: number,
+        latestMedicalHistory?: any 
     } | null,
 }
 
@@ -49,4 +53,20 @@ export type CurrentUser = {
     id: string,
     email: string,
     role: string,
+    name?: string,
+    aadhaar?: string,
+    dateofBirth?: Date,
+    medicalHistoryCount?: number
+}
+
+export type ProfileField = {
+    name: string,
+    fullName: string,
+    type: string,
+    value: string | Date
+}
+
+export type ProfileProps = {
+    title: string,
+    fields: ProfileField[],
 }

@@ -19,6 +19,7 @@ async function checkAuth(): Promise<{ auth: boolean, details: any | null }> {
         });
 
         const data: BasicResponse = await response.json();
+        if(!data.success) localStorage.removeItem('token');
         return {
             auth: data.success,
             details: data.success ? data.details : null

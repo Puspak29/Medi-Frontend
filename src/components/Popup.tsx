@@ -1,40 +1,54 @@
-import { Link } from 'react-router-dom';
+import { FaUser, FaUserMd } from 'react-icons/fa';
 
 function Popup(props: any) {
-    const handleClosePopUp = (e: any) => {
-        if (e.target.id === 'ModelContainer') {
-          props.closePopup();
-        }
-    }
-    function handleClick(){
-        props.setUserUrl(null)
-        props.setDoctorUrl(null);
-        props.setType(null);
-        props.setOpenPopup(false);
-    }
   return (
-    <div id='ModelContainer'
-    className='fixed inset-0 flex justify-center items-center bg-opacity-20 backdrop-blur-sm'
-    onClick={handleClosePopUp}
+    <>
+    <div
+      className="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center z-50"
+      onClick={() => props.setShowModal(false)}
     >
-    <div className='flex justify-center items-center flex-col gap-y-3 bg-white p-5 rounded-lg shadow-lg h-60 w-80'>
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-            Account Type
-          </h2>
-      <Link 
-      to={props.userUrl} 
-      onClick={handleClick}
-      className='flex justify-center items-center bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 w-40'>
-        {props.type} as User
-      </Link>
-      <Link 
-      to={props.doctorUrl} 
-      onClick={handleClick}
-      className='flex justify-center items-center bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 w-40'>
-        {props.type} as Doctor
-      </Link>
+      {/* Modal Box */}
+      <div
+        className="bg-white rounded-2xl p-8 shadow-xl w-[90%] max-w-md text-center relative animate-fade-in"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h2 className="text-2xl font-semibold text-cyan-700 mb-2">
+          Choose Account Type
+        </h2>
+        <p className="text-gray-500 mb-6">
+          Please select your account type to continue
+        </p>
+
+        <div className="flex justify-around gap-4">
+          {/* User Option */}
+          <button
+            onClick={() => props.handleSelectAccount("user")}
+            className="flex flex-col items-center justify-center bg-cyan-100 hover:bg-cyan-200 text-cyan-700 rounded-xl p-6 w-36 transition-all"
+          >
+            <FaUser className="text-3xl mb-2" />
+            <span className="font-medium">User</span>
+          </button>
+
+          {/* Doctor Option */}
+          <button
+            onClick={() => props.handleSelectAccount("doctor")}
+            className="flex flex-col items-center justify-center bg-emerald-100 hover:bg-emerald-200 text-emerald-700 rounded-xl p-6 w-36 transition-all"
+          >
+            <FaUserMd className="text-3xl mb-2" />
+            <span className="font-medium">Doctor</span>
+          </button>
+        </div>
+
+        {/* Close Button */}
+        <button
+          onClick={() => props.setShowModal(false)}
+          className="absolute top-3 right-4 text-gray-500 hover:text-gray-700 text-lg"
+        >
+          ✕
+        </button>
+      </div>
     </div>
-    </div>
+    </>
   )
 }
 

@@ -58,32 +58,30 @@ async function userLogin(loginData: UserLoginData): Promise<BasicResponse>{
     }
 }
 
-async function getUserProfile(): Promise<BasicResponse & { user? : any }> {
+async function getUserReportCards(): Promise<BasicResponse & { medicalHistory?: any[] }>{
     try{
         const token = localStorage.getItem('token');
         if(!token){
             return {
                 success: false,
-                message: 'Please login to continue.',
-            }
+                message: 'Unauthorized',
+            };
         }
-        const response = await fetch(`${API_URL}/user/profile`,{
+        const response = await fetch(`${API_URL}/user/reportcards`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
-            }
+            },
         });
 
-        const data: BasicResponse & { user?: any } = await response.json();
-        if(!data.success) localStorage.removeItem('token');
+        const data: BasicResponse & { medicalHistory?: any[] } = await response.json();
         return data;
-
     }
     catch(err: any){
         return {
             success: false,
-            message: 'Failed to fetch user profile.',
+            message: 'Something went wrong.',
         }
     }
 }
@@ -91,5 +89,5 @@ async function getUserProfile(): Promise<BasicResponse & { user? : any }> {
 export {
     userSignup,
     userLogin,
-    getUserProfile,
+    getUserReportCards
 };

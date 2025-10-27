@@ -8,7 +8,7 @@ function Layout() {
   return (
     <div>
       <Header />
-      <div className='min-h-screen mx-auto max-w-7xl px-4 py-6 sm:px-6 md:px-7 lg:px-8'>
+      <div className='min-h-screen content-center'>
       <Outlet />
       </div>
       <Footer />
