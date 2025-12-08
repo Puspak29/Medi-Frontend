@@ -16,7 +16,7 @@ function Login() {
             });
 
             if(response.success){
-              navigate(routes.user.profile);
+              navigate(routes.home);
             }
             return response;
         }

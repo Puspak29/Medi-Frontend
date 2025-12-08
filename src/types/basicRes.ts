@@ -10,11 +10,20 @@ export type BasicResponse = {
         id: string,
         email: string,
         role: string,
-        name?: string,
+        name: string,
         aadhaar?: number,
         dateofBirth?: Date,
         medicalHistoryCount?: number,
-        latestMedicalHistory?: any 
+        latestMedicalHistory?: any,
+        createdAt?: Date,
+        lastDoctor?: any,
+
+        specialization?: string,
+        experience?: number,
+        uidByNMC?: string,
+        patientCount?: number,
+        rating?: number,
+        lastPatient?: any
     } | null,
 }
 
@@ -56,7 +65,17 @@ export type CurrentUser = {
     name?: string,
     aadhaar?: string,
     dateofBirth?: Date,
-    medicalHistoryCount?: number
+    medicalHistoryCount?: number,
+    latestMedicalHistory?: any[] | null,
+    createdAt?: Date,
+    lastDoctor?: any | null,
+
+    specialization?: string,
+    experience?: number,
+    uidByNMC?: string,
+    patientCount?: number,
+    rating?: number,
+    lastPatient?: any | null,
 }
 
 export type ProfileField = {

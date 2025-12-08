@@ -19,9 +19,9 @@ function DynamicForm(props: DynamicFormProps) {
           </h2>
         <form onSubmit={propSubmit} className="space-y-4">
           {props.fields.map((field) => (
-            <>
+            <div key={field.name}>
             {field.type === 'dropdown' ? (
-              <div className="mb-4" key={field.name}>
+              <div className="mb-4">
                 <label htmlFor={field.name} className="block text-gray-700 font-bold mb-2">
                   {field.fullName}
                 </label>
@@ -39,7 +39,7 @@ function DynamicForm(props: DynamicFormProps) {
                 </select>
               </div>
             ): (
-                <div className="mb-4" key={field.name}>
+                <div className="mb-4">
                     <label htmlFor={field.name} className="block text-gray-700 font-bold mb-2">
                     {field.fullName}
                     </label>
@@ -58,7 +58,7 @@ function DynamicForm(props: DynamicFormProps) {
                     />
                 </div>
               )}
-           </>   
+           </div>   
           ))}
 
             <button

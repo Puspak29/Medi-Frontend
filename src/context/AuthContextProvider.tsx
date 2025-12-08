@@ -25,19 +25,28 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [isAuth, setIsAuth] = useState<boolean>(false);
 
     useEffect(() => {
+        let isMounted = true;
         const checkAuthentication = async () => {
             try{
                 const { auth, details } = await checkAuth();
+
+                if (!isMounted) return;
+
                 setCurrentUser(details);
                 setIsAuth(auth);
             }
             catch(err){
+                if (!isMounted) return;
                 setCurrentUser(null);
                 setIsAuth(false);
             }
         };
 
         checkAuthentication();
+
+        return () => { 
+            isMounted = false; 
+        };
     }, []);
 
     const value: AuthContextType = {

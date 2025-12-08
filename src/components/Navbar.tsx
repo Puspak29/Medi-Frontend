@@ -1,10 +1,9 @@
 import { FaHeartbeat } from 'react-icons/fa'
-import Popup from './Popup'
+import { Popup, UserAvatar } from './'
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import routes from '../routes';
 import { useAuth } from '../context/AuthContextProvider';
-import UserAvatar from './UserAvatar';
 import { toast } from 'react-toastify';
 
 function Navbar() {
@@ -59,7 +58,7 @@ function Navbar() {
               </Link> */}
               </>
             )}
-            <Link to={routes.home} className="hover:text-cyan-600">
+            <Link to={`${currentUser.role === 'user' ? routes.user.appointment : routes.doctor.appointments.root}`} className="hover:text-cyan-600">
             Appointment
             </Link>
             </>)}
