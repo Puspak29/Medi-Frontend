@@ -36,14 +36,14 @@ const AuthGuard = ({ children }: AuthGuardProps) => {
   if (currentUser.role === "user") {
     // If trying to access any /doctor/* route or any /auth/* route (login/signup pages)
     if (path.startsWith("/doctor") || path.startsWith("/auth")) {
-      return <Navigate to={routes.user.profile} replace />;
+      return <Navigate to={routes.home} replace />;
     }
   }
 
   if (currentUser.role === "doctor") {
     // If trying to access any /user/* route or any /auth/* route (login/signup pages)
     if (path.startsWith("/user") || path.startsWith("/auth")) {
-      return <Navigate to={routes.doctor.profile} replace />;
+      return <Navigate to={routes.home} replace />;
     }
   }
 

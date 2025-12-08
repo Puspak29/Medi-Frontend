@@ -4,15 +4,12 @@ import './index.css'
 import App from './App.tsx'
 import Layout from './routes/Layout.tsx'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import { Login, Signup, UserProfile } from './app/user'
-import { DoctorLogin, ReportCard, DoctorSignup, DoctorProfile } from './app/doctor/index.ts'
+import { Appointment, Login, Signup, UserProfile, ReportCards } from './app/user'
+import { DoctorLogin, ReportCard, DoctorSignup, DoctorProfile, OtpVerify, DoctorAppointments } from './app/doctor'
 import { AuthProvider } from './context/AuthContextProvider.tsx'
 import AuthGuard from './middleware/ProtectedRouter.tsx'
-import OtpVerify from './app/doctor/OtpVerify.tsx'
-import MyHistory from './app/user/MyHistory.tsx'
 import Error from './app/Error.tsx'
-import MedicalProfile from './app/user/MedicalProfile.tsx'
-import ReportCards from './app/user/ReportCards.tsx'
+import { ReportsProvider } from './context/ReportsContext.tsx'
 
 const router = createBrowserRouter([
   {
@@ -77,7 +74,7 @@ const router = createBrowserRouter([
             path: 'profile',
             element: (
               <AuthGuard>
-                <MedicalProfile />
+                <UserProfile />
               </AuthGuard>
             )
           },
@@ -90,10 +87,10 @@ const router = createBrowserRouter([
             )
           },
           {
-            path: 'reportcards',
+            path: 'appointment',
             element: (
               <AuthGuard>
-                <MyHistory />
+                <Appointment />
               </AuthGuard>
             )
           }
@@ -125,6 +122,14 @@ const router = createBrowserRouter([
                 <DoctorProfile />
               </AuthGuard>
             )
+          },
+          {
+            path: 'appointments',
+            element: (
+              <AuthGuard>
+                <DoctorAppointments />
+              </AuthGuard>
+            )
           }
         ]
       },
@@ -139,7 +144,9 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AuthProvider>
+    <ReportsProvider>
     <RouterProvider router={router} />
+    </ReportsProvider>
     </AuthProvider>
   </StrictMode>,
 )

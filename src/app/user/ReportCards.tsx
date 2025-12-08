@@ -7,13 +7,15 @@ import {
 } from "react-icons/fa";
 import { getUserReportCards } from "../../services/userServices";
 import { toast } from "react-toastify";
+import { useReports } from "../../context/ReportsContext"
 
 export default function ReportCards() {
-  const [reports, setReports] = useState<any[] | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { reports, setReports } = useReports();
+  const [loading, setLoading] = useState(!reports);
   const effectRan = useRef(false);
 
     useEffect(() => {
+        if(reports) return;
         const fetchUserProfile = async () => {
             if (effectRan.current) return;
             try{
@@ -35,7 +37,20 @@ export default function ReportCards() {
         };
         fetchUserProfile();
         effectRan.current = true;
-    }, []);
+    }, [reports, setReports]);
+
+    function getCardColor(status: string){
+        switch(status){
+            case 'Normal':
+              return 'from green-300 to-green-200';
+            case 'Critical':
+              return 'from red-300 to-red-200';
+            case 'Attention Needed':
+              return 'from yellow-300 to-yellow-200';
+            default:
+              return 'from blue-300 to-blue-200';
+        }
+    }
 
     if(loading) return <p>Loading...</p>;
 
@@ -54,10 +69,15 @@ export default function ReportCards() {
 
         {/* Cards Grid */}
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {(!reports || reports.length === 0) && (
+            <p className="text-center text-gray-600 col-span-full">
+              No report cards available.
+            </p>
+          )}
           {reports && reports.map((report) => (
             <div
               key={report._id}
-              className={`bg-gradient-to-br ${report.color} p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300`}
+              className={`bg-gradient-to-br ${getCardColor(report.status)} p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300`}
             >
               <div className="flex items-center justify-between mb-4">
                 <div className="bg-white p-3 rounded-xl shadow-sm">
@@ -76,9 +96,12 @@ export default function ReportCards() {
                 <FaCalendarAlt className="mr-2 text-cyan-700" />
                 {new Date(report.date).toLocaleDateString("en-IN", {
                   day: '2-digit',
-                  month: 'long',
+                  month: 'short',
                   year: 'numeric',
-                })}
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: true
+                })} 
               </div>
 
               <div className="flex items-center text-sm text-gray-600">

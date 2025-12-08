@@ -14,6 +14,12 @@ export type UserLoginData = {
     password: string,
 }
 
+type SearchResultType = {
+  _id: string;
+  name: string;
+  specialization: string;
+}
+
 async function userSignup(userData: UserData): Promise<BasicResponse>{
     try{
         const response = await fetch(`${API_URL}/auth/user/signup`, {
@@ -86,8 +92,31 @@ async function getUserReportCards(): Promise<BasicResponse & { medicalHistory?: 
     }
 }
 
+async function searchDoctors(query: string): Promise<BasicResponse & { doctors?: SearchResultType[] }> {
+    try{
+        const token = localStorage.getItem('token');
+        const response = await fetch(`${API_URL}/user/appointments?q=${query}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+        });
+
+        const data: BasicResponse & { doctors?: SearchResultType[] } = await response.json();
+        return data;
+    }
+    catch(err: any){
+        return {
+            success: false,
+            message: 'Search failed, please try again',
+        }
+    }
+}
+
 export {
     userSignup,
     userLogin,
-    getUserReportCards
+    getUserReportCards,
+    searchDoctors
 };
