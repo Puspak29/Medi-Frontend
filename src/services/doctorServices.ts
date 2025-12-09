@@ -16,6 +16,25 @@ export type DoctorSignupData = {
     experience: number
 }
 
+export interface ViewSlot {
+  booked: number;
+  capacity: number;
+  disabled: boolean;
+  users: {
+    user: {
+      _id: string;
+      name: string;
+      email: string;
+    };
+    bookedAt: string;
+  }[];
+}
+
+// Full slot response
+type SlotResponse = BasicResponse & {
+  slot?: ViewSlot;
+}
+
 
 async function doctorLogin(loginData: DoctorLoginData): Promise<BasicResponse>{
     try{
@@ -148,10 +167,96 @@ async function verifyOtp(otpData: OtpData): Promise<BasicResponse> {
     }
 }
 
+async function getDoctorAppointments(): Promise<BasicResponse & { appointments?: any[] }> {
+    try{
+        const token = localStorage.getItem('token');
+        if(!token){
+            return {
+                success: false,
+                message: 'Please login to continue',
+            }
+        }
+        const response = await fetch(`${API_URL}/doctor/appointments`,{
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }
+        });
+        const data: BasicResponse & { appointments?: any[] } = await response.json();
+        return data;
+    }
+    catch(err: any){
+        return {
+            success: false,
+            message: 'Failed to fetch appointments',
+        }
+    }
+}
+
+async function createAppointment(appointmentData: any): Promise<BasicResponse> {
+    try{
+        const token = localStorage.getItem('token');
+        if(!token){
+            return {
+                success: false,
+                message: 'Please login to continue',
+            }
+        }
+        const response = await fetch(`${API_URL}/doctor/appointments`,{
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(appointmentData)
+        });
+        const data: BasicResponse = await response.json();
+        return data;
+    }
+    catch(err: any){
+        return {
+            success: false,
+            message: 'Failed to create appointment',
+        }
+    }
+}
+
+async function getAppointedUsers(appointmentId: string, slotName: string): Promise<SlotResponse> {
+    try{
+        const token = localStorage.getItem('token');
+        if(!token){
+            return {
+                success: false,
+                message: 'Please login to continue',
+            }
+        }
+        const response = await fetch(`${API_URL}/doctor/appointments/view?appointmentId=${appointmentId}&slotName=${slotName}`,{
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }
+        })
+
+        const data: SlotResponse = await response.json();
+        return data;
+    }
+    catch(err: any){
+        return {
+            success: false,
+            message: 'Failed to fetch appointed users',
+        }
+    }
+}
+
 export {
     doctorLogin,
     generateReportCard,
     doctorSignup,
     getDoctorProfile,
-    verifyOtp
+    verifyOtp,
+    getDoctorAppointments,
+    createAppointment,
+    getAppointedUsers
 }

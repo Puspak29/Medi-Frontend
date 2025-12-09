@@ -23,10 +23,7 @@ const routes = {
     doctor: {
         root: '/doctor',
         profile: '/doctor/profile',
-        appointments: {
-            root: '/doctor/appointments',
-            create: '/doctor/appointments/create',
-        },
+        appointments: '/doctor/appointments',
         reportcard: {
             root: '/doctor/reportcard',
             generate: '/doctor/reportcard',
