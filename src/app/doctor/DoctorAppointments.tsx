@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
-import { HiEye, HiPlus } from "react-icons/hi";
+import { HiEye, HiPlus, HiEyeOff } from "react-icons/hi";
+import { createAppointment, getAppointedUsers, getDoctorAppointments, type ViewSlot } from "../../services/doctorServices";
+import { toast } from "react-toastify";
+import SlotView from "../../components/SlotView";
 
 
 export interface Slot {
   capacity: number;
   booked: number;
   disabled: boolean;
-  users: string[];
+  users: any[];
 }
 
 export interface Slots {
@@ -23,71 +26,45 @@ export interface Appointment {
   slots: Slots;
 }
 
-export const dummyAppointments: Appointment[] = [
-  {
-    _id: "a1",
-    doctor: "doctor123",
-    date: new Date(), // today
-    slots: {
-      slot1: { capacity: 10, booked: 4, disabled: false, users: [] },
-      slot2: { capacity: 10, booked: 10, disabled: false, users: [] },
-      slot3: { capacity: 10, booked: 0, disabled: true, users: [] },
-      slot4: { capacity: 10, booked: 6, disabled: false, users: [] },
-    }
-  },
-  {
-    _id: "a2",
-    doctor: "doctor123",
-    date: (() => {
-      const d = new Date();
-      d.setDate(d.getDate() + 1);
-      return d;
-    })(),
-    slots: {
-      slot1: { capacity: 10, booked: 2, disabled: false, users: [] },
-      slot2: { capacity: 10, booked: 8, disabled: false, users: [] },
-      slot3: { capacity: 10, booked: 1, disabled: false, users: [] },
-      slot4: { capacity: 10, booked: 0, disabled: true, users: [] },
-    }
-  },
-  {
-    _id: "a3",
-    doctor: "doctor123",
-    date: new Date("2025-02-10"),
-    slots: {
-      slot1: { capacity: 10, booked: 5, disabled: false, users: [] },
-      slot2: { capacity: 10, booked: 9, disabled: false, users: [] },
-      slot3: { capacity: 10, booked: 10, disabled: false, users: [] },
-      slot4: { capacity: 10, booked: 3, disabled: false, users: [] },
-    }
-  },
-  {
-    _id: "a4",
-    doctor: "doctor123",
-    date: new Date("2025-02-15"),
-    slots: {
-      slot1: { capacity: 10, booked: 0, disabled: false, users: [] },
-      slot2: { capacity: 10, booked: 0, disabled: false, users: [] },
-      slot3: { capacity: 10, booked: 0, disabled: false, users: [] },
-      slot4: { capacity: 10, booked: 0, disabled: false, users: [] },
+const dummySlot: ViewSlot = {
+  booked: 3,
+  capacity: 10,
+  disabled: false,
+  users: [
+    {
+      user: {
+        _id: "u1",
+        name: "Alice Johnson",
+        email: "alice@example.com",
+      },
+      bookedAt: "2025-12-09T09:15:00.000Z",
     },
-  },
-  {
-    _id: "a5",
-    doctor: "doctor123",
-    date: new Date("2026-01-01"),
-    slots: {
-      slot1: { capacity: 10, booked: 7, disabled: false, users: [] },
-      slot2: { capacity: 10, booked: 4, disabled: false, users: [] },
-      slot3: { capacity: 10, booked: 6, disabled: false, users: [] },
-      slot4: { capacity: 10, booked: 2, disabled: false, users: [] },
+    {
+      user: {
+        _id: "u2",
+        name: "Bob Smith",
+        email: "bob@example.com",
+      },
+      bookedAt: "2025-12-09T10:30:00.000Z",
     },
-  }
-];
+    {
+      user: {
+        _id: "u3",
+        name: "Charlie Brown",
+        email: "charlie@example.com",
+      },
+      bookedAt: "2025-12-09T08:45:00.000Z",
+    },
+  ],
+};
+
 
 export default function DoctorAppointments() {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [showModal, setShowModal] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [slotUsers, setSlotUsers] = useState<any[]>([]);
+  const [slotName, setSlotName] = useState<string>("");
 
   const [date, setDate] = useState<string>("");
   const [slots, setSlots] = useState<Slots>({
@@ -99,8 +76,12 @@ export default function DoctorAppointments() {
 
   useEffect(() => {
     const fetchAppointments = async () => {
-      // Replace API call later if needed
-      setAppointments(sortAppointments(dummyAppointments));
+      const data = await getDoctorAppointments();
+      if (data.success && data.appointments) {
+        setAppointments(sortAppointments(data.appointments));
+        return;
+      }
+      toast.error(data.message || "Failed to fetch appointments");
     };
 
     fetchAppointments();
@@ -113,28 +94,61 @@ export default function DoctorAppointments() {
     }));
   };
 
-  const handleCreateAppointment = () => {
-    if (!date) return alert("Please select a date");
+  const handleCreateAppointment = async () => {
+    try{
+      if (!date){
+        toast.error("Please select a date for the appointment");
+        return;
+      }
 
-    const newAppointment: Appointment = {
-      _id: Math.random().toString(36).substring(2, 9),
-      doctor: "doctor123",
-      date,
-      slots
-    };
+      const newAppointment = {
+        date,
+        slots
+      };
+      console.log("Creating appointment:", newAppointment);
+      const data = await createAppointment(newAppointment);
+      if(data.success){
+        toast.success("Appointment created successfully");
+        setShowModal(false);
 
-    setAppointments(prev => [...prev, newAppointment]);
-    setShowModal(false);
-
-    // Reset form
-    setDate("");
-    setSlots({
-      slot1: { capacity: 10, booked: 0, disabled: false, users: [] },
-      slot2: { capacity: 10, booked: 0, disabled: false, users: [] },
-      slot3: { capacity: 10, booked: 0, disabled: false, users: [] },
-      slot4: { capacity: 10, booked: 0, disabled: false, users: [] },
-    });
+        // Reset form
+        setDate("");
+        setSlots({
+          slot1: { capacity: 10, booked: 0, disabled: false, users: [] },
+          slot2: { capacity: 10, booked: 0, disabled: false, users: [] },
+          slot3: { capacity: 10, booked: 0, disabled: false, users: [] },
+          slot4: { capacity: 10, booked: 0, disabled: false, users: [] },
+        });
+      }
+      else{
+        toast.error(data.message || "Failed to create appointment");
+      }
+    }
+    catch(err){
+      toast.error("Failed to create appointment");
+    }
   };
+
+  const handleViewSlot = async (appointmentId: string, slotKey: string) => {
+    try{
+      const data = await getAppointedUsers(appointmentId, slotKey);
+      console.log("Appointed users data:", data);
+      // if(data.success && data.slot && data.slot.users){
+      //   setSlotUsers(data.slot.users || []);
+      //   setSlotName(setTime(slotKey));
+      //   setIsOpen(true);
+      //   return;
+      // }
+      
+      // Using dummy data for demonstration
+      setSlotUsers(dummySlot.users || []);
+      setSlotName(setTime(slotKey));
+      setIsOpen(true);
+    }
+    catch(err){
+      toast.error("Failed to view slot users");
+    }
+  }
 
   // Sort appointments: Today → Tomorrow → After
   const sortAppointments = (list: Appointment[]) => {
@@ -151,6 +165,7 @@ export default function DoctorAppointments() {
   const formatDate = (dateStr: Date | string) => {
     const date = new Date(dateStr);
     const today = new Date();
+    today.setHours(0, 0, 0, 0);
     const tomorrow = new Date();
     tomorrow.setDate(today.getDate() + 1);
 
@@ -179,7 +194,7 @@ export default function DoctorAppointments() {
     return timeMap[slotKey] || "Unknown Time";
   }
 
-  const formatSlotInfo = (slots: Slots) => {
+  const formatSlotInfo = (appointmentId: string, slots: Slots) => {
     return (Object.entries(slots) as [string, Slot][])
       .map(([key, slot]) => (
         <div key={key} className="border border-gray-200 shadow-sm rounded-lg p-5 bg-white flex items-center justify-between text-sm">
@@ -193,12 +208,26 @@ export default function DoctorAppointments() {
           )}
         </div>
         <button
-            // onClick={() => handleViewSlot(appointmentId, key)}
-            className="flex items-center gap-1 text-blue-600 hover:text-blue-800"
-          >
+          onClick={() => !slot.disabled && handleViewSlot(appointmentId, key)}
+          disabled={slot.disabled}
+          className={`
+            flex items-center gap-1 text-blue-600 hover:text-blue-800
+            disabled:text-gray-400 disabled:hover:text-gray-400
+            disabled:cursor-not-allowed disabled:opacity-60
+          `}
+        >
+          {slot.disabled ? (
+            <HiEyeOff className="text-lg" />
+          ) : (
             <HiEye className="text-lg" />
-            <span className="text-sm font-medium">View</span>
-          </button>
+          )}
+          <span className="text-sm font-medium">
+            {slot.disabled ? "Disabled" : "View"}
+          </span>
+        </button>
+        {isOpen && (
+          <SlotView slotName={slotName} slotUsers={slotUsers} setIsOpen={setIsOpen} />
+      )}
         </div>
       ));
   };
@@ -232,7 +261,7 @@ export default function DoctorAppointments() {
 
             {/* Slots */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {formatSlotInfo(appointment.slots)}
+              {formatSlotInfo(appointment._id, appointment.slots)}
             </div>
           </div>
         ))}
@@ -254,18 +283,18 @@ export default function DoctorAppointments() {
 
             {/* Date */}
             <div className="mb-6 flex flex-col">
-  <label className="text-gray-700 font-semibold mb-2">Appointment Date</label>
-  <input
-    type="date"
-    value={date}
-    onChange={(e) => setDate(e.target.value)}
-    className="
-      w-full border border-gray-300 rounded-lg px-4 py-2
-      shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400
-      transition-colors duration-150
-    "
-  />
-</div>
+              <label className="text-gray-700 font-semibold mb-2">Appointment Date</label>
+              <input
+                type="date"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                className="
+                  w-full border border-gray-300 rounded-lg px-4 py-2
+                  shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400
+                  transition-colors duration-150
+                "
+              />
+            </div>
 
             {/* Slots */}
             {(["slot1", "slot2", "slot3", "slot4"] as (keyof Slots)[]).map(slotKey => (

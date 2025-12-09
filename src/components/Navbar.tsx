@@ -58,7 +58,7 @@ function Navbar() {
               </Link> */}
               </>
             )}
-            <Link to={`${currentUser.role === 'user' ? routes.user.appointment : routes.doctor.appointments.root}`} className="hover:text-cyan-600">
+            <Link to={`${currentUser.role === 'user' ? routes.user.appointment : routes.doctor.appointments}`} className="hover:text-cyan-600">
             Appointment
             </Link>
             </>)}

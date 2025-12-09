@@ -118,7 +118,7 @@ function DynamicProfile() {
             {isDoctor ? (
               <>
                 <FaStethoscope  size={18} />
-                <Link to={routes.doctor.appointments.root}>Check Appointment</Link>
+                <Link to={routes.doctor.appointments}>Check Appointment</Link>
               </>
             ) : (
               <>
