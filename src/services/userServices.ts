@@ -20,6 +20,25 @@ type SearchResultType = {
   specialization: string;
 }
 
+type SlotType = {
+  capacity: number;
+  booked: number;
+  disabled: boolean;
+};
+
+type SlotsObject = {
+  slot1: SlotType;
+  slot2: SlotType;
+  slot3: SlotType;
+  slot4: SlotType;
+};
+
+type AppointmentType = {
+  _id: string;
+  date: string;
+  slots: SlotsObject;
+};
+
 async function userSignup(userData: UserData): Promise<BasicResponse>{
     try{
         const response = await fetch(`${API_URL}/auth/user/signup`, {
@@ -95,7 +114,7 @@ async function getUserReportCards(): Promise<BasicResponse & { medicalHistory?: 
 async function searchDoctors(query: string): Promise<BasicResponse & { doctors?: SearchResultType[] }> {
     try{
         const token = localStorage.getItem('token');
-        const response = await fetch(`${API_URL}/user/appointments?q=${query}`, {
+        const response = await fetch(`${API_URL}/user/appointments/search?q=${query}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -114,9 +133,64 @@ async function searchDoctors(query: string): Promise<BasicResponse & { doctors?:
     }
 }
 
+async function getAppointmentsByUser(doctorId: string): Promise<BasicResponse & { appointments?: AppointmentType[] }> {
+    try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            return {
+                success: false,
+                message: "Unauthorized",
+            };
+        }
+        const res = await fetch(`${API_URL}/user/appointments/book?doctorId=${doctorId}`, {
+          method: "GET",
+          headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+        const data = await res.json();
+        return data;
+    } catch (err: any) {
+        return {
+            success: false,
+            message: 'Failed to fetch appointments',
+        }
+    }
+}
+
+async function bookAppointmentService(appointmentId: string, slotKey: string): Promise<BasicResponse> {
+    try{
+        const token = localStorage.getItem("token");
+        if (!token) {
+            return {
+                success: false,
+                message: "Unauthorized",
+            };
+        }
+        const res = await fetch(`${API_URL}/user/appointments/book`, {
+          method: "POST",
+          headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ appointmentId, slotName: slotKey }),
+        });
+        const data: BasicResponse = await res.json();
+        return data;
+    }
+    catch(err: any){
+        return {
+            success: false,
+            message: 'Failed to book appointment',
+        }
+    }
+}
+
 export {
     userSignup,
     userLogin,
     getUserReportCards,
-    searchDoctors
+    searchDoctors,
+    getAppointmentsByUser,
+    bookAppointmentService
 };

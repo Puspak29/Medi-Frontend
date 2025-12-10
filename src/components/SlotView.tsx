@@ -2,8 +2,10 @@
 function SlotView(props: any) {
   const { slotName, slotUsers, setIsOpen } = props;
   return (
-    <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center z-50">
-        <div className="bg-white rounded-2xl p-8 shadow-xl w-[90%] max-w-md relative animate-fade-in">
+    <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-start z-50 p-4 pt-12">
+        <div className="bg-white rounded-2xl shadow-xl
+        w-full sm:max-w-l md:max-w-2xl lg:max-w-5xl
+        max-h-[80vh] overflow-y-auto p-6">
         <div className="text-center">
         <h2 className="text-2xl font-semibold text-cyan-700 mb-2">{slotName}</h2>
         </div>

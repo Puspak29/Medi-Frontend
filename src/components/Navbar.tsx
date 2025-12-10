@@ -41,9 +41,9 @@ function Navbar() {
             <>
             {currentUser.role === 'user' && (
             <>
-            <Link to={routes.home} className="hover:text-cyan-600">
+            {/* <Link to={routes.home} className="hover:text-cyan-600">
             Features
-            </Link>
+            </Link> */}
             <Link to={routes.user.reportcards} className="hover:text-cyan-600">
             Reports
             </Link>
