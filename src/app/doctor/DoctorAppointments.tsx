@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { HiEye, HiPlus, HiEyeOff } from "react-icons/hi";
-import { createAppointment, getAppointedUsers, getDoctorAppointments, type ViewSlot } from "../../services/doctorServices";
+import { createAppointment, getAppointedUsers, getDoctorAppointments } from "../../services/doctorServices";
 import { toast } from "react-toastify";
 import SlotView from "../../components/SlotView";
 
@@ -25,39 +25,6 @@ export interface Appointment {
   date: Date | string;
   slots: Slots;
 }
-
-const dummySlot: ViewSlot = {
-  booked: 3,
-  capacity: 10,
-  disabled: false,
-  users: [
-    {
-      user: {
-        _id: "u1",
-        name: "Alice Johnson",
-        email: "alice@example.com",
-      },
-      bookedAt: "2025-12-09T09:15:00.000Z",
-    },
-    {
-      user: {
-        _id: "u2",
-        name: "Bob Smith",
-        email: "bob@example.com",
-      },
-      bookedAt: "2025-12-09T10:30:00.000Z",
-    },
-    {
-      user: {
-        _id: "u3",
-        name: "Charlie Brown",
-        email: "charlie@example.com",
-      },
-      bookedAt: "2025-12-09T08:45:00.000Z",
-    },
-  ],
-};
-
 
 export default function DoctorAppointments() {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
@@ -132,17 +99,12 @@ export default function DoctorAppointments() {
   const handleViewSlot = async (appointmentId: string, slotKey: string) => {
     try{
       const data = await getAppointedUsers(appointmentId, slotKey);
-      console.log("Appointed users data:", data);
-      // if(data.success && data.slot && data.slot.users){
-      //   setSlotUsers(data.slot.users || []);
-      //   setSlotName(setTime(slotKey));
-      //   setIsOpen(true);
-      //   return;
-      // }
-      
-      // Using dummy data for demonstration
-      setSlotUsers(dummySlot.users || []);
-      setSlotName(setTime(slotKey));
+      if(data.success && data.slot && data.slot.users){
+        setSlotUsers(data.slot.users || []);
+        setSlotName(setTime(slotKey));
+        setIsOpen(true);
+        return;
+      }
       setIsOpen(true);
     }
     catch(err){
@@ -272,7 +234,7 @@ export default function DoctorAppointments() {
           </div>
         )}
       </div>
-      {/* CREATE APPOINTMENT MODAL */}
+      {/* APPOINTMENT MODAL */}
       {showModal && (
         <div 
         className="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center z-50">
@@ -307,7 +269,6 @@ export default function DoctorAppointments() {
 
                 {/* Slot details */}
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                    {/* Max Capacity */}
                     <div className="flex items-center gap-2">
                     <label className="text-sm font-semibold">Max Capacity:</label>
                     <input
@@ -318,8 +279,6 @@ export default function DoctorAppointments() {
                         className="border border-gray-300 rounded-md px-3 py-1 w-20 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     />
                     </div>
-
-                    {/* Disabled Checkbox */}
                     <div className="flex items-center gap-2">
                     <input
                         type="checkbox"
@@ -346,11 +305,11 @@ export default function DoctorAppointments() {
               </button>
             
             <button
-          onClick={() => setShowModal(false)}
-          className="absolute top-3 right-4 text-gray-500 hover:text-gray-700 text-lg"
-        >
-          ✕
-        </button>
+              onClick={() => setShowModal(false)}
+              className="absolute top-3 right-4 text-gray-500 hover:text-gray-700 text-lg"
+            >
+              ✕
+            </button>
           </div>
         </div>
       )}
