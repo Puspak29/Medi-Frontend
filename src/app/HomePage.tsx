@@ -58,7 +58,15 @@ export default function HomePage() {
           </p>
           <button 
               className="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-3 rounded-full font-semibold transition-all transform hover:scale-[1.02] shadow-md"
-              onClick={() => { setIsOpen(true); setAuthMode('login'); }}
+              onClick={() => {
+                
+                if(!isAuth){
+                  setIsOpen(true); 
+                  setAuthMode('login');
+                }
+                else navigate(`/${currentUser?.role}/appointments`);
+                 
+              }}
           >
               {actionText} Now
           </button>
@@ -75,10 +83,10 @@ export default function HomePage() {
           {/* Text Content */}
           <div className="lg:w-1/2 text-center lg:text-left">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight mb-4">
-              Your Health Records, <span className="text-cyan-600">Securely Accessible</span>
+              Your Health, <span className="text-cyan-600">Simplified and Secure</span>
             </h1>
             <p className="text-gray-600 text-lg sm:text-xl mb-8 max-w-lg lg:max-w-none mx-auto lg:mx-0">
-              Access, track, and manage your comprehensive medical reports and appointment history with ease.
+              Access, track, and manage your comprehensive medical reports and book consultations, and let doctors manage schedules and report cards.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <button 
@@ -118,9 +126,11 @@ export default function HomePage() {
                     actionText="Log In" 
                 />
             ) : (!reports || reports.length === 0) ? (
-            <p className="text-center text-gray-600 col-span-full">
-              No medical reports available.
-            </p>
+            <GuestPlaceholder
+              title="No Medical Report Available"
+              icon={FileText}
+              actionText="Book Appointment"
+             />
             ) : (reports.map((report) => {
               const color = getCardColor(report.status);
               return (
@@ -184,9 +194,11 @@ export default function HomePage() {
               actionText="Log In" 
             />
           ) : (!lastAppointment ? (
-            <p className="text-center text-gray-600 col-span-full">
-              No appointment details available.
-            </p>
+            <GuestPlaceholder
+              title="No Appointment Details Available"
+              icon={FileText}
+              actionText="Book Appointment"
+             />
           ) : (
             <>
             <div className="bg-white rounded-2xl shadow-lg p-8 text-left hover:shadow-2xl transition-all">
