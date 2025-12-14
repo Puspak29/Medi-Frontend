@@ -13,7 +13,9 @@ export type DoctorSignupData = {
     password: string,
     uidByNMC: string,
     specialization: string,
-    experience: number
+    experience: number,
+    phoneNumber?: string,
+    address?: string,
 }
 
 export interface ViewSlot {

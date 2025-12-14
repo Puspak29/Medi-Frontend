@@ -12,7 +12,7 @@ function DynamicForm(props: DynamicFormProps) {
 
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-cyan-100 to-blue-100">
+    <div className="min-h-screen pt-25 pb-5 p-3 flex items-center justify-center bg-gradient-to-br from-cyan-100 to-blue-100">
       <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md">
           <h2 className="text-2xl font-semibold text-center text-cyan-700 mb-6">
             {props.title}

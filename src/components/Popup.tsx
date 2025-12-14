@@ -1,6 +1,8 @@
 import { FaUser, FaUserMd } from 'react-icons/fa';
 
 function Popup(props: any) {
+  const { authMode } = props;
+  const laterPart = authMode ? authMode : 'login';
   return (
     <>
     <div
@@ -22,7 +24,7 @@ function Popup(props: any) {
         <div className="flex justify-around gap-4">
           {/* User Option */}
           <button
-            onClick={() => props.handleSelectAccount("user")}
+            onClick={() => props.handleSelectAccount("user", laterPart)}
             className="flex flex-col items-center justify-center bg-cyan-100 hover:bg-cyan-200 text-cyan-700 rounded-xl p-6 w-36 transition-all"
           >
             <FaUser className="text-3xl mb-2" />
@@ -31,7 +33,7 @@ function Popup(props: any) {
 
           {/* Doctor Option */}
           <button
-            onClick={() => props.handleSelectAccount("doctor")}
+            onClick={() => props.handleSelectAccount("doctor", laterPart)}
             className="flex flex-col items-center justify-center bg-emerald-100 hover:bg-emerald-200 text-emerald-700 rounded-xl p-6 w-36 transition-all"
           >
             <FaUserMd className="text-3xl mb-2" />

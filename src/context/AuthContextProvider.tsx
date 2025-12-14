@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         return () => { 
             isMounted = false; 
         };
-    }, []);
+    }, [isAuth]);
 
     const value: AuthContextType = {
         isAuth,

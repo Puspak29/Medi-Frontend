@@ -6,7 +6,8 @@ export type UserData = {
     email: string,
     password: string,
     dateofBirth: Date,
-    aadhaar: string,
+    phoneNumber?: string,
+    address?: string,
 }
 
 export type UserLoginData = {
@@ -186,11 +187,38 @@ async function bookAppointmentService(appointmentId: string, slotKey: string): P
     }
 }
 
+async function getReportCard(reportId: string): Promise<BasicResponse & { reportCard?: any }> {
+    try{
+        const token = localStorage.getItem('token');
+        if(!token){
+            return {
+                success: false,
+                message: 'Please login to continue',
+            }
+        }
+        const response = await fetch(`${API_URL}/user/viewreport?reportId=${reportId}`,{
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+        const data: BasicResponse & { reportCard?: any } = await response.json();
+        return data;
+    }
+    catch(err: any){
+        return {
+            success: false,
+            message: 'Failed to fetch report card',
+        }
+    }
+}
+
 export {
     userSignup,
     userLogin,
     getUserReportCards,
     searchDoctors,
     getAppointmentsByUser,
-    bookAppointmentService
+    bookAppointmentService,
+    getReportCard
 };

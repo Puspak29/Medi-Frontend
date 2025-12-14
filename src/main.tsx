@@ -10,6 +10,7 @@ import { AuthProvider } from './context/AuthContextProvider.tsx'
 import AuthGuard from './middleware/ProtectedRouter.tsx'
 import Error from './app/Error.tsx'
 import { ReportsProvider } from './context/ReportsContext.tsx'
+import ViewReport from './components/ViewReport.tsx'
 
 const router = createBrowserRouter([
   {
@@ -87,10 +88,18 @@ const router = createBrowserRouter([
             )
           },
           {
-            path: 'appointment',
+            path: 'appointments',
             element: (
               <AuthGuard>
                 <Appointment />
+              </AuthGuard>
+            )
+          },
+          {
+            path: 'viewreport',
+            element: (
+              <AuthGuard>
+                <ViewReport />
               </AuthGuard>
             )
           }
@@ -128,6 +137,14 @@ const router = createBrowserRouter([
             element: (
               <AuthGuard>
                 <DoctorAppointments />
+              </AuthGuard>
+            )
+          },
+          {
+            path: 'viewreport',
+            element: (
+              <AuthGuard>
+                <ViewReport />
               </AuthGuard>
             )
           }

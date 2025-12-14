@@ -1,7 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { FaSignOutAlt, FaUser, FaUserMd } from "react-icons/fa";
+import { FaFilePrescription } from "react-icons/fa6";
+import { RiCalendarScheduleFill } from "react-icons/ri";
 import { useAuth } from "../context/AuthContextProvider";
 import { Link } from "react-router-dom";
+import routes from "../routes";
 
 const UserAvatar = ({handleLogOut}: any) => {
   const [open, setOpen] = useState<boolean>(false);
@@ -21,7 +24,7 @@ const UserAvatar = ({handleLogOut}: any) => {
 
   const getRoleIcon = () => {
     if (currentUser?.role === "doctor")
-      return <FaUserMd className="text-cyan-700 text-2xl" />;
+      return  <FaUserMd className="text-cyan-700 text-2xl" />;
     return <FaUser className="text-cyan-700 text-2xl" />;
   };
 
@@ -50,10 +53,40 @@ const UserAvatar = ({handleLogOut}: any) => {
               <Link
                 to={`/${currentUser?.role}/profile`}
                 className="w-full text-left px-4 py-2 flex items-center gap-2 hover:bg-gray-100 transition"
+                onClick={() => setOpen(!open)}
               >
                 <FaUser /> My Profile
               </Link>
             </li>
+            {currentUser?.role === "doctor" ? (
+              <li>
+                <Link to={routes.doctor.reportcard.generate}
+                className="sm:hidden w-full text-left px-4 py-2 flex items-center gap-2 hover:bg-gray-100 transition"
+                onClick={() => setOpen(!open)}
+                >
+                  <FaFilePrescription />Prescribe
+                </Link>
+              </li>
+            ) : (
+              <li>
+                <Link to={routes.user.reportcards}
+                className="sm:hidden w-full text-left px-4 py-2 flex items-center gap-2 hover:bg-gray-100 transition"
+                onClick={() => setOpen(!open)}
+                >
+                  <FaFilePrescription /> Reports
+                </Link>
+              </li>
+            )}
+            {currentUser && (
+              <li>
+              <Link to={`${currentUser.role === 'user' ? routes.user.appointments : routes.doctor.appointments}`} 
+              className="sm:hidden w-full text-left px-4 py-2 flex items-center gap-2 hover:bg-gray-100 transition"
+              onClick={() => setOpen(!open)}
+              >
+                  <RiCalendarScheduleFill /> Appointments
+              </Link>
+            </li>
+            )}
             <li>
               <button
                 onClick={handleLogOut}

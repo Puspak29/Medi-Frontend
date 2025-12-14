@@ -1,10 +1,13 @@
-import { FaHeartbeat } from 'react-icons/fa'
 import { Popup, UserAvatar } from './'
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import routes from '../routes';
 import { useAuth } from '../context/AuthContextProvider';
 import { toast } from 'react-toastify';
+
+const HeartbeatLogo = (props: any) => (
+    <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
+);
 
 function Navbar() {
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -29,52 +32,46 @@ function Navbar() {
     }
   return (
     <>
-    <nav className="flex justify-between items-center px-10 py-5 bg-white/70 backdrop-blur-md shadow-sm fixed w-full z-50">
-        <h1 className="text-2xl font-bold text-cyan-700">
-          <Link to={routes.home} >
-            <FaHeartbeat className="inline-block text-red-500 mr-2" />
-            MedHistory
-          </Link>
-        </h1>
-        <div className="flex items-center space-x-6 text-gray-700 font-medium">
-            {currentUser && (
-            <>
-            {currentUser.role === 'user' && (
-            <>
-            {/* <Link to={routes.home} className="hover:text-cyan-600">
-            Features
-            </Link> */}
-            <Link to={routes.user.reportcards} className="hover:text-cyan-600">
-            Reports
-            </Link>
-            </>)}
-            {currentUser.role === 'doctor' && (
-            <>
-              <Link to={routes.doctor.reportcard.generate} className="hover:text-cyan-600">
-              Prescribe
-              </Link>
-              {/* <Link to={routes.home} className="hover:text-cyan-600">
-              Patient List
-              </Link> */}
-              </>
-            )}
-            <Link to={`${currentUser.role === 'user' ? routes.user.appointment : routes.doctor.appointments}`} className="hover:text-cyan-600">
-            Appointment
-            </Link>
-            </>)}
-            {(!currentUser ? 
-            <button 
-            onClick={() => setShowModal(true)} 
-            className="bg-cyan-600 hover:bg-cyan-700 text-white px-5 py-2 rounded-full transition-all">
-            Login
-            </button> :
-            <div className='inline-flex items-center px-2'>
-            <UserAvatar handleLogOut={handleLogOut} />
-            </div> 
-            )}
-        </div>
-    </nav> 
-    {showModal && <Popup setShowModal={setShowModal} handleSelectAccount={handleSelectAccount} />}
+        <nav className="flex justify-between items-center px-4 sm:px-10 py-5 bg-white/90 backdrop-blur-sm shadow-md fixed w-full z-50">
+            <h1 className="text-xl sm:text-2xl font-bold text-cyan-700">
+                <Link to={routes.home} className="flex items-center">
+                    <HeartbeatLogo className="inline-block text-red-500 mr-2 w-6 h-6" />
+                    MedHistory
+                </Link>
+            </h1>
+            <div className="flex items-center space-x-4 sm:space-x-6 text-gray-700 font-medium">
+                {currentUser && (
+                    <>
+                        {currentUser.role === 'user' && (
+                            <Link to={routes.user.reportcards} className="hidden sm:block hover:text-cyan-600 transition-colors">
+                                Reports
+                            </Link>
+                        )}
+                        {currentUser.role === 'doctor' && (
+                            <Link to={routes.doctor.reportcard.generate} className="hidden sm:block hover:text-cyan-600 transition-colors">
+                                Prescribe
+                            </Link>
+                        )}
+                        <Link to={`${currentUser.role === 'user' ? routes.user.appointments : routes.doctor.appointments}`} className="hidden sm:block hover:text-cyan-600 transition-colors">
+                            Appointments
+                        </Link>
+                    </>
+                )}
+                {(!currentUser ?
+                    <button
+                        id="navbar-login-btn"
+                        onClick={() => setShowModal(true)}
+                        className="bg-cyan-600 hover:bg-cyan-700 text-white px-5 py-2 rounded-full transition-all shadow-lg text-sm sm:text-base"
+                    >
+                        Login
+                    </button> :
+                    <div className='inline-flex items-center px-2'>
+                        <UserAvatar handleLogOut={handleLogOut} />
+                    </div>
+                )}
+            </div>
+        </nav>
+        {showModal && <Popup setShowModal={setShowModal} handleSelectAccount={handleSelectAccount} />}
     </>
   )
 }

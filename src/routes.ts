@@ -18,12 +18,14 @@ const routes = {
         root: '/user',
         profile: '/user/profile',
         reportcards: '/user/reportcards',
-        appointment: '/user/appointment',
+        appointments: '/user/appointments',
+        viewreport: '/user/viewreport',
     },
     doctor: {
         root: '/doctor',
         profile: '/doctor/profile',
         appointments: '/doctor/appointments',
+        viewreport: '/doctor/viewreport',
         reportcard: {
             root: '/doctor/reportcard',
             generate: '/doctor/reportcard',
