@@ -12,7 +12,9 @@ const fieldValue: FormField[] = [
     { name: 'confirmPassword', fullName: 'Confirm Password', required: true, type: 'password' },
     { name: 'uidByNMC', fullName: "Uid By NMC", required: true, type: 'text' },
     { name: 'specialization', fullName: 'Specialization', required: true, type: 'text' },
-    { name: 'experience', fullName: "Experience (in years)", required: true, type: 'number' }
+    { name: 'experience', fullName: "Experience (in years)", required: true, type: 'number' },
+    { name: 'phoneNumber', fullName: "Phone Number", required: false, type: 'text' },
+    { name: 'address', fullName: 'Hospital Name & City', required: false, type: 'text' },
 ]
 
 function DoctorSignup() {
@@ -24,6 +26,8 @@ function DoctorSignup() {
         uidByNMC: '',
         specialization: '',
         experience: 0,
+        phoneNumber: '',
+        address: '',
     });
 
     async function handleSubmit(){
@@ -41,6 +45,8 @@ function DoctorSignup() {
                 uidByNMC: formData.uidByNMC,
                 specialization: formData.specialization,
                 experience: formData.experience,
+                phoneNumber: formData.phoneNumber,
+                address: formData.address,
             });
 
             if(response.success){

@@ -11,7 +11,8 @@ const fieldValue: FormField[] = [
     { name: 'password', fullName: 'Password', required: true, type: 'password' },
     { name: 'confirmPassword', fullName: 'Confirm Password', required: true, type: 'password' },
     { name: 'dateofBirth', fullName: 'Date of Birth', required: true, type: 'date' },
-    { name: 'aadhaar', fullName: 'Aadhaar No.', required: true, type: 'number' },
+    { name: 'phoneNumber', fullName: 'Phone Number', required: false, type: 'text' },
+    { name: 'address', fullName: 'Address', required: false, type: 'text' },
 ]
 
 function Signup() {
@@ -21,7 +22,8 @@ function Signup() {
         password: '',
         confirmPassword: '',
         dateofBirth: new Date(),
-        aadhaar: '',
+        phoneNumber: '',
+        address: '',
     });
 
     async function handleSubmit(){
@@ -37,7 +39,8 @@ function Signup() {
                 email: formData.email,
                 password: formData.password,
                 dateofBirth: formData.dateofBirth,
-                aadhaar: formData.aadhaar,
+                phoneNumber: formData.phoneNumber,
+                address: formData.address,
             });
 
             if(response.success){

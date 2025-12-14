@@ -8,6 +8,8 @@ import Search from "./Search"
 import TimeSlot from "./TimeSlot"
 import DynamicProfile from "./DynamicProfile"
 import UserAvatar from "./UserAvatar"
+import Charts from "./Charts"
+import ViewReport from "./ViewReport"
 
 export {
     LoginForm,
@@ -20,4 +22,6 @@ export {
     TimeSlot,
     DynamicProfile,
     UserAvatar,
+    Charts,
+    ViewReport,
 }

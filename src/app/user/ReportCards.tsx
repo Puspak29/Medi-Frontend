@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import {
   FaFileMedical,
   FaDownload,
@@ -8,11 +8,12 @@ import {
 import { getUserReportCards } from "../../services/userServices";
 import { toast } from "react-toastify";
 import { useReports } from "../../context/ReportsContext"
+import { useNavigate } from "react-router-dom";
 
 export default function ReportCards() {
   const { reports, setReports } = useReports();
-  const [loading, setLoading] = useState(!reports);
   const effectRan = useRef(false);
+  const navigate = useNavigate();
 
     useEffect(() => {
         if(reports) return;
@@ -30,32 +31,27 @@ export default function ReportCards() {
             catch(err){
                 toast.error('Failed to fetch reportcards, please try again');
             }
-            finally{
-                setLoading(false);
-            }
             
         };
         fetchUserProfile();
         effectRan.current = true;
     }, [reports, setReports]);
 
-    function getCardColor(status: string){
-        switch(status){
-            case 'Normal':
-              return 'from green-300 to-green-200';
-            case 'Critical':
-              return 'from red-300 to-red-200';
-            case 'Attention Needed':
-              return 'from yellow-300 to-yellow-200';
-            default:
-              return 'from blue-300 to-blue-200';
-        }
+    function getCardColor(status: string) {
+      switch (status) {
+        case 'Normal':
+          return { bg: 'bg-green-50/70 hover:bg-green-100', icon: 'text-green-600', border: 'border-green-300' };
+        case 'Critical':
+          return { bg: 'bg-red-50/70 hover:bg-red-100', icon: 'text-red-600', border: 'border-red-300' };
+        case 'Attention Needed':
+          return { bg: 'bg-yellow-50/70 hover:bg-yellow-100', icon: 'text-yellow-600', border: 'border-yellow-300' };
+        default:
+          return { bg: 'bg-blue-50/70 hover:bg-blue-100', icon: 'text-blue-600', border: 'border-blue-300' };
+      }
     }
 
-    if(loading) return <p>Loading...</p>;
-
   return (
-    <div className="min-h-screen mt-20 bg-gradient-to-br from-blue-50 to-cyan-100 p-8">
+    <div className="min-h-screen mt-20 bg-white p-8">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-10">
@@ -74,18 +70,20 @@ export default function ReportCards() {
               No report cards available.
             </p>
           )}
-          {reports && reports.map((report) => (
+          {reports && reports.map((report) => {
+            const color = getCardColor(report.status);
+            return (
             <div
               key={report._id}
-              className={`bg-gradient-to-br ${getCardColor(report.status)} p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300`}
+              className={`bg-gradient-to-br border ${color.border} ${color.bg} p-6 rounded-2xl shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl`}
             >
               <div className="flex items-center justify-between mb-4">
                 <div className="bg-white p-3 rounded-xl shadow-sm">
-                  <FaFileMedical className="text-cyan-600 text-2xl" />
+                  <FaFileMedical className={`${color.icon} text-2xl`} />
                 </div>
-                <button className="text-cyan-700 hover:text-cyan-900 transition-colors">
-                  <FaDownload />
-                </button>
+                {/* <button className="text-cyan-700 hover:text-cyan-900 transition-colors">
+                  <FaDownload className={`${color.icon}`} />
+                </button> */}
               </div>
 
               <h2 className="text-xl font-semibold text-gray-800 mb-2">
@@ -108,27 +106,22 @@ export default function ReportCards() {
                 <FaHeartbeat className="mr-2 text-cyan-700" />
                 Status:
                 <span
-                  className={`ml-1 font-semibold ${
-                    report.status === "Normal"
-                      ? "text-green-700"
-                      : report.status === "Critical"
-                      ? "text-red-700"
-                      : report.status === "Attention Needed"
-                      ? "text-yellow-700"
-                      : "text-blue-700"
-                  }`}
+                  className={`ml-1 font-semibold ${color.icon}`}
                 >
                   {report.status}
                 </span>
               </div>
 
               <div className="mt-4">
-                <button className="w-full bg-cyan-600 hover:bg-cyan-700 text-white py-2 rounded-full font-medium transition-all">
+                <button 
+                className="w-full bg-cyan-600 hover:bg-cyan-700 text-white py-2 rounded-full font-medium transition-all"
+                onClick={() => {navigate(`/user/viewreport`, {state: { reportId: report._id }});}}
+                >
                   View Full Report
                 </button>
               </div>
             </div>
-          ))}
+          )})}
         </div>
       </div>
     </div>

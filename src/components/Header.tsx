@@ -2,7 +2,7 @@ import Navbar from "./Navbar";
 
 function Header() {
   return (
-    <header>
+    <header className="no-print">
         <Navbar />
     </header>
   )
