@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import {
   FaFileMedical,
-  FaDownload,
+  //FaDownload,
   FaCalendarAlt,
   FaHeartbeat,
 } from "react-icons/fa";
