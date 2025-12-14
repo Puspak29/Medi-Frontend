@@ -260,7 +260,7 @@ const ViewReport = () => {
                 
                 {/* Footer */}
                 <div className="p-4 bg-gray-50 border-t border-gray-200 text-center text-sm text-gray-500 rounded-b-2xl">
-                    Report generated on {new Date().toLocaleString()}.
+                    Report generated on {new Date().toLocaleString()}, by MedHistory.
                 </div>
             </div>
         </div>
