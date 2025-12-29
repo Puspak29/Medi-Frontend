@@ -71,6 +71,7 @@ export type CurrentUser = {
     latestMedicalHistory?: any[] | null,
     createdAt?: Date,
     lastDoctor?: any | null,
+    notification?: any[],
 
     specialization?: string,
     experience?: number,

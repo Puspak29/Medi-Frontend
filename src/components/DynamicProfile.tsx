@@ -24,6 +24,7 @@ const generateMockAppointments = () => {
 };
 
 const mockAppointmentData = generateMockAppointments();
+console.log(mockAppointmentData)
 
 function DynamicProfile() {
     const { currentUser } = useAuth();
@@ -41,9 +42,9 @@ function DynamicProfile() {
   );
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-cyan-100 flex items-center justify-center p-6 pt-30 lg:pt-0">
-      <div className="w-full max-w-7xl grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-1 flex justify-center">
-          <div className="w-full max-w-xl lg:max-w-none">
+      <div className="w-full">
+        <div className="flex justify-center">
+          <div className="w-full max-w-xl ">
             <div className="bg-white rounded-3xl shadow-2xl overflow-hidden transform transition-all duration-500 hover:shadow-cyan-300/50 h-full">
               {/* Header / Banner */}
               <div className="relative h-40 bg-gradient-to-r from-cyan-600 to-blue-700">
@@ -175,11 +176,11 @@ function DynamicProfile() {
             </div>
           </div>
         </div>
-        <div className="lg:col-span-2 flex justify-center">
+        {/* <div className="lg:col-span-2 flex justify-center">
         <div className="w-full max-w-xl lg:max-w-none">
           <ChartPanel />
         </div>
-        </div>
+        </div> */}
       </div>
     </div>
   )

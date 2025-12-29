@@ -10,6 +10,7 @@ import DynamicProfile from "./DynamicProfile"
 import UserAvatar from "./UserAvatar"
 import Charts from "./Charts"
 import ViewReport from "./ViewReport"
+import Inbox from "./Inbox"
 
 export {
     LoginForm,
@@ -24,4 +25,5 @@ export {
     UserAvatar,
     Charts,
     ViewReport,
+    Inbox
 }

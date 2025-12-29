@@ -126,6 +126,7 @@ function Charts({ mockData }: { mockData: any[] }) {
     );
     
     return (
+        <div className="flex flex-col lg:grid lg:grid-cols-2 gap-6">
         <div className="bg-white p-6 rounded-2xl shadow-xl border border-gray-100 w-full h-full flex flex-col">
             <h3 className="text-xl font-bold text-gray-800 mb-2 flex items-center">
                 <Icon className="text-blue-600 w-5 h-5 mr-2" /> 
@@ -133,18 +134,18 @@ function Charts({ mockData }: { mockData: any[] }) {
             </h3>
             <p className="text-sm text-gray-500 mb-4">{chartDescription}</p>
 
-            {/* Time Span Selectors */}
+            {/* Time Span Selectors
             <div className="flex flex-wrap gap-3 mb-6">
                 <TimeButton span="week" label="7 Days" ChartIcon={LineChart} />
                 <TimeButton span="month" label="1 Month" ChartIcon={PieChart} />
                 <TimeButton span="year" label="1 Year" ChartIcon={BarChart} />
-            </div>
+            </div> */}
 
             {/* Chart Area */}
             <div className="flex-grow flex items-center justify-center">
                 {aggregatedData.totalAppointments > 0 ? (
                     <div className="h-full w-full lg:w-1/2">
-                    <ChartComponent {...aggregatedData} />
+                    <LineChartComponent {...aggregatedData} />
                     </div>
                 ) : (
                     <div className="text-center p-10 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
@@ -156,6 +157,100 @@ function Charts({ mockData }: { mockData: any[] }) {
             <p className="text-xs text-gray-400 mt-4 text-center">
                 Visualizing {aggregatedData.totalAppointments} total appointments.
             </p>
+        </div>
+        <div className="bg-white p-6 rounded-2xl shadow-xl border border-gray-100 w-full h-full flex flex-col">
+            <h3 className="text-xl font-bold text-gray-800 mb-2 flex items-center">
+                <Icon className="text-blue-600 w-5 h-5 mr-2" /> 
+                {chartTitle}
+            </h3>
+            <p className="text-sm text-gray-500 mb-4">{chartDescription}</p>
+
+            {/* Time Span Selectors */}
+            {/* <div className="flex flex-wrap gap-3 mb-6">
+                <TimeButton span="week" label="7 Days" ChartIcon={LineChart} />
+                <TimeButton span="month" label="1 Month" ChartIcon={PieChart} />
+                <TimeButton span="year" label="1 Year" ChartIcon={BarChart} />
+            </div> */}
+
+            {/* Chart Area */}
+            <div className="flex-grow flex items-center justify-center">
+                {aggregatedData.totalAppointments > 0 ? (
+                    <div className="h-full w-full lg:w-1/2">
+                    <PieChartComponent {...aggregatedData} />
+                    </div>
+                ) : (
+                    <div className="text-center p-10 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
+                        <p className="text-gray-500 text-lg">No data available for this period.</p>
+                    </div>
+                )}
+            </div>
+            
+            <p className="text-xs text-gray-400 mt-4 text-center">
+                Visualizing {aggregatedData.totalAppointments} total appointments.
+            </p>
+        </div>
+        <div className="bg-white p-6 rounded-2xl shadow-xl border border-gray-100 w-full h-full flex flex-col">
+            <h3 className="text-xl font-bold text-gray-800 mb-2 flex items-center">
+                <Icon className="text-blue-600 w-5 h-5 mr-2" /> 
+                {chartTitle}
+            </h3>
+            <p className="text-sm text-gray-500 mb-4">{chartDescription}</p>
+
+            {/* Time Span Selectors */}
+            {/* <div className="flex flex-wrap gap-3 mb-6">
+                <TimeButton span="week" label="7 Days" ChartIcon={LineChart} />
+                <TimeButton span="month" label="1 Month" ChartIcon={PieChart} />
+                <TimeButton span="year" label="1 Year" ChartIcon={BarChart} />
+            </div> */}
+
+            {/* Chart Area */}
+            <div className="flex-grow flex items-center justify-center">
+                {aggregatedData.totalAppointments > 0 ? (
+                    <div className="h-full w-full lg:w-1/2">
+                    <BarChartComponent {...aggregatedData} />
+                    </div>
+                ) : (
+                    <div className="text-center p-10 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
+                        <p className="text-gray-500 text-lg">No data available for this period.</p>
+                    </div>
+                )}
+            </div>
+            
+            <p className="text-xs text-gray-400 mt-4 text-center">
+                Visualizing {aggregatedData.totalAppointments} total appointments.
+            </p>
+        </div>
+        <div className="bg-white p-6 rounded-2xl shadow-xl border border-gray-100 w-full h-full flex flex-col">
+            <h3 className="text-xl font-bold text-gray-800 mb-2 flex items-center">
+                <Icon className="text-blue-600 w-5 h-5 mr-2" /> 
+                {chartTitle}
+            </h3>
+            <p className="text-sm text-gray-500 mb-4">{chartDescription}</p>
+
+            {/* Time Span Selectors */}
+            {/* <div className="flex flex-wrap gap-3 mb-6">
+                <TimeButton span="week" label="7 Days" ChartIcon={LineChart} />
+                <TimeButton span="month" label="1 Month" ChartIcon={PieChart} />
+                <TimeButton span="year" label="1 Year" ChartIcon={BarChart} />
+            </div> */}
+
+            {/* Chart Area */}
+            <div className="flex-grow flex items-center justify-center">
+                {aggregatedData.totalAppointments > 0 ? (
+                    <div className="h-full w-full lg:w-1/2">
+                    <LineChartComponent {...aggregatedData} />
+                    </div>
+                ) : (
+                    <div className="text-center p-10 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
+                        <p className="text-gray-500 text-lg">No data available for this period.</p>
+                    </div>
+                )}
+            </div>
+            
+            <p className="text-xs text-gray-400 mt-4 text-center">
+                Visualizing {aggregatedData.totalAppointments} total appointments.
+            </p>
+        </div>
         </div>
     );
 }
