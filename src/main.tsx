@@ -10,7 +10,7 @@ import { AuthProvider } from './context/AuthContextProvider.tsx'
 import AuthGuard from './middleware/ProtectedRouter.tsx'
 import Error from './app/Error.tsx'
 import { ReportsProvider } from './context/ReportsContext.tsx'
-import ViewReport from './components/ViewReport.tsx'
+import {ViewReport, Inbox } from './components/index.ts'
 
 const router = createBrowserRouter([
   {
@@ -100,6 +100,14 @@ const router = createBrowserRouter([
             element: (
               <AuthGuard>
                 <ViewReport />
+              </AuthGuard>
+            )
+          },
+          {
+            path: 'inbox',
+            element: (
+              <AuthGuard>
+                <Inbox />
               </AuthGuard>
             )
           }

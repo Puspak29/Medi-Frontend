@@ -20,6 +20,7 @@ const routes = {
         reportcards: '/user/reportcards',
         appointments: '/user/appointments',
         viewreport: '/user/viewreport',
+        inbox: '/user/inbox',
     },
     doctor: {
         root: '/doctor',
