@@ -134,12 +134,12 @@ function Charts({ mockData }: { mockData: any[] }) {
             </h3>
             <p className="text-sm text-gray-500 mb-4">{chartDescription}</p>
 
-            {/* Time Span Selectors
+            Time Span Selectors
             <div className="flex flex-wrap gap-3 mb-6">
                 <TimeButton span="week" label="7 Days" ChartIcon={LineChart} />
                 <TimeButton span="month" label="1 Month" ChartIcon={PieChart} />
                 <TimeButton span="year" label="1 Year" ChartIcon={BarChart} />
-            </div> */}
+            </div>
 
             {/* Chart Area */}
             <div className="flex-grow flex items-center justify-center">
