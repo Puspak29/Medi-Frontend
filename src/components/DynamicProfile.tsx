@@ -2,7 +2,7 @@ import { FaEnvelope, FaPhone, FaMapPin, FaCalendar, FaStethoscope, FaUser, FaUse
 import { useAuth } from "../context/AuthContextProvider";
 import { Link } from "react-router-dom";
 import routes from "../routes";
-import Charts from "./Charts";
+// import Charts from "./Charts";
 
 const generateMockAppointments = () => {
     // Fixed 'today' for reproducible mock data
@@ -35,11 +35,11 @@ function DynamicProfile() {
     return <FaUser className="text-cyan-700 text-8xl" />;
   };
 
-  const ChartPanel = () => (
-    <div className="w-full h-full">
-        <Charts mockData={mockAppointmentData} />
-    </div>
-  );
+  // const ChartPanel = () => (
+  //   <div className="w-full h-full">
+  //       <Charts mockData={mockAppointmentData} />
+  //   </div>
+  // );
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-cyan-100 flex items-center justify-center p-6 pt-30 lg:pt-0">
       <div className="w-full">

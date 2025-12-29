@@ -2,15 +2,15 @@ import { useState } from "react";
 import { ArrowLeft, Bell, InboxIcon, ShieldCheck } from "../assets/SvgLogos";
 import { useAuth } from "../context/AuthContextProvider";
 
-const INITIAL_NOTIFICATIONS = [
-    {
-        id: 'otp_1',
-        otpType: 'verification',
-        otp: '582 914',
-        createdAt: '2025-12-29T14:45:00.000Z',
-        otpExpires: '2025-12-29T14:50:00.000Z',
-    }
-];
+// const INITIAL_NOTIFICATIONS = [
+//     {
+//         id: 'otp_1',
+//         otpType: 'verification',
+//         otp: '582 914',
+//         createdAt: '2025-12-29T14:45:00.000Z',
+//         otpExpires: '2025-12-29T14:50:00.000Z',
+//     }
+// ];
 
 // "notification": [
 //     {
@@ -27,7 +27,7 @@ const INITIAL_NOTIFICATIONS = [
 
 function Inbox() {
     const { currentUser } = useAuth();
-    const [notifications, setNotifications] = useState(currentUser?.notification);
+    const notifications = currentUser?.notification;
     const [activeId, setActiveId] = useState<string | null>(null); // Default to null for mobile view to show list first
 
     const activeItem = notifications?.find((n: any) => n._id === activeId);
