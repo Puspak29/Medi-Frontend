@@ -145,7 +145,7 @@ function Charts({ mockData }: { mockData: any[] }) {
             <div className="flex-grow flex items-center justify-center">
                 {aggregatedData.totalAppointments > 0 ? (
                     <div className="h-full w-full lg:w-1/2">
-                    <LineChartComponent {...aggregatedData} />
+                    <ChartComponent {...aggregatedData} />
                     </div>
                 ) : (
                     <div className="text-center p-10 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
