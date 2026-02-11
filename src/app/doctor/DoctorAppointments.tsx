@@ -72,7 +72,7 @@ export default function DoctorAppointments() {
         date,
         slots
       };
-      console.log("Creating appointment:", newAppointment);
+      // console.log("Creating appointment:", newAppointment);
       const data = await createAppointment(newAppointment);
       if (data.success) {
         toast.success("Appointment created successfully");

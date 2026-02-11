@@ -4,27 +4,27 @@ import { Link } from "react-router-dom";
 import routes from "../routes";
 // import Charts from "./Charts";
 
-const generateMockAppointments = () => {
-    // Fixed 'today' for reproducible mock data
-    const today = new Date(); 
-    const data = [];
+// const generateMockAppointments = () => {
+//     // Fixed 'today' for reproducible mock data
+//     const today = new Date(); 
+//     const data = [];
     
-    for (let i = 0; i < 365; i++) {
-        const date = new Date(today);
-        date.setDate(today.getDate() - i);
-        // Random appointments, slightly higher trend recently (last 30 days)
-        const appointments = Math.floor(Math.random() * (i < 30 ? 15 : 10)) + 1;
+//     for (let i = 0; i < 365; i++) {
+//         const date = new Date(today);
+//         date.setDate(today.getDate() - i);
+//         // Random appointments, slightly higher trend recently (last 30 days)
+//         const appointments = Math.floor(Math.random() * (i < 30 ? 15 : 10)) + 1;
         
-        data.push({
-            date: date.toISOString().split('T')[0],
-            count: appointments,
-        });
-    }
-    return data.reverse(); // Reverse so the most recent is at the end
-};
+//         data.push({
+//             date: date.toISOString().split('T')[0],
+//             count: appointments,
+//         });
+//     }
+//     return data.reverse(); // Reverse so the most recent is at the end
+// };
 
-const mockAppointmentData = generateMockAppointments();
-console.log(mockAppointmentData)
+// const mockAppointmentData = generateMockAppointments();
+// console.log(mockAppointmentData)
 
 function DynamicProfile() {
     const { currentUser } = useAuth();

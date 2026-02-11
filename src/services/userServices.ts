@@ -213,6 +213,34 @@ async function getReportCard(reportId: string): Promise<BasicResponse & { report
     }
 }
 
+async function updateProfile(profileData: any): Promise<BasicResponse> {
+    try{
+        const token = localStorage.getItem('token');
+        if(!token){
+            return {
+                success: false,
+                message: 'Unauthorized',
+            }
+        }
+        const response = await fetch(`${API_URL}/user/profile/update`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(profileData),
+        });
+        const data: BasicResponse = await response.json();
+        return data;
+    }
+    catch(err: any){
+        return {
+            success: false,
+            message: 'Failed to update profile',
+        }
+    }
+}
+
 export {
     userSignup,
     userLogin,
@@ -220,5 +248,6 @@ export {
     searchDoctors,
     getAppointmentsByUser,
     bookAppointmentService,
-    getReportCard
+    getReportCard,
+    updateProfile,
 };
