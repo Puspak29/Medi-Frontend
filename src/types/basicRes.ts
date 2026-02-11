@@ -72,6 +72,10 @@ export type CurrentUser = {
     createdAt?: Date,
     lastDoctor?: any | null,
     notification?: any[],
+    bloodType?: string,
+    height?: number,
+    weight?: number,
+    emergencyProtocol?: any,
 
     specialization?: string,
     experience?: number,
