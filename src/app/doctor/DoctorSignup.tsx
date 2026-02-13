@@ -14,7 +14,7 @@ const fieldValue: FormField[] = [
     { name: 'specialization', fullName: 'Specialization', required: true, type: 'text' },
     { name: 'experience', fullName: "Experience (in years)", required: true, type: 'number' },
     { name: 'phoneNumber', fullName: "Phone Number", required: false, type: 'text' },
-    { name: 'address', fullName: 'Hospital Name & City', required: false, type: 'text' },
+    { name: 'address', fullName: 'Address', required: false, type: 'text' },
 ]
 
 function DoctorSignup() {

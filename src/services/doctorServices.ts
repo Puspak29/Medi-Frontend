@@ -110,36 +110,6 @@ async function generateReportCard(reportcardData: ReportCardData): Promise<Basic
     }
 }
 
-async function getDoctorProfile(): Promise<BasicResponse & { doctor? : any }> {
-    try{
-        const token = localStorage.getItem('token');
-        if(!token){
-            return {
-                success: false,
-                message: 'Please login to continue',
-            }
-        }
-        const response = await fetch(`${API_URL}/doctor/profile`,{
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            }
-        });
-
-        const data: BasicResponse & { doctor?: any } = await response.json();
-        if(!data.success) localStorage.removeItem('token');
-        return data;
-
-    }
-    catch(err: any){
-        return {
-            success: false,
-            message: 'Failed to fetch user profile',
-        }
-    }
-}
-
 async function verifyOtp(otpData: OtpData): Promise<BasicResponse> {
     try{
         const token = localStorage.getItem('token');
@@ -252,13 +222,41 @@ async function getAppointedUsers(appointmentId: string, slotName: string): Promi
     }
 }
 
+async function updateDoctorProfile(profileData: any): Promise<BasicResponse> {
+    try{
+        const token = localStorage.getItem('token');
+        if(!token){
+            return {
+                success: false,
+                message: 'Unauthorized',
+            }
+        }
+        const response = await fetch(`${API_URL}/doctor/profile/update`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(profileData),
+        });
+        const data: BasicResponse = await response.json();
+        return data;
+    }
+    catch(err: any){
+        return {
+            success: false,
+            message: 'Failed to update profile',
+        }
+    }
+}
+
 export {
     doctorLogin,
     generateReportCard,
     doctorSignup,
-    getDoctorProfile,
     verifyOtp,
     getDoctorAppointments,
     createAppointment,
-    getAppointedUsers
+    getAppointedUsers,
+    updateDoctorProfile,
 }

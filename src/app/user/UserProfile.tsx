@@ -3,6 +3,7 @@ import { useAuth } from "../../context/AuthContextProvider";
 import { Activity, AlertCircle, HeartPulse, Mail, MapPin, Phone, Save, Settings, Share2, Shield, User, X } from "lucide-react";
 import { updateProfile } from "../../services/userServices";
 import { toast } from "react-toastify";
+import { DetailItem } from "../../components";
 
 
 const HEALTH_DATA_SETS: Record<string, { label: string; bp: number }[]> = {
@@ -22,17 +23,6 @@ const MetricCard = ({ value, label, color }: { value: any; label: string; color:
   </div>
 );
 
-const DetailItem = ({ label, value, icon: Icon }: { label: string; value: any; icon: React.ComponentType<{ size: number }> }) => (
-  <div className="flex items-center gap-4 min-w-0">
-    <div className="p-2.5 sm:p-3 bg-slate-50 rounded-2xl text-slate-400 shrink-0">
-      <Icon size={18} />
-    </div>
-    <div className="min-w-0 flex-1">
-      <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest truncate">{label}</p>
-      <p className="text-xs sm:text-sm font-bold text-slate-700 truncate">{value}</p>
-    </div>
-  </div>
-);
 
 const EditProfileModal = ({ isOpen, onClose, initialData }: { isOpen: boolean; onClose: () => void; initialData: any }) => {
   const { setCurrentUser } = useAuth();
