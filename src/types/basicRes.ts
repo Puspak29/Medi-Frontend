@@ -83,6 +83,9 @@ export type CurrentUser = {
     patientCount?: number,
     rating?: number,
     lastPatient?: any | null,
+    bio?: string,
+    badges?: any[],
+    hospitalAffiliation?: string,
 }
 
 export type ProfileField = {
